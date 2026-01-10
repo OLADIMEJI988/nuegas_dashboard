@@ -1,15 +1,34 @@
 "use client";
 
+import CustomMiniCalendar from "@/components/CustomMiniCalender";
 import MonthlyMentors from "@/components/MonthlyMentors";
 import UpcomingTask from "@/components/UpcomingTask";
+import TodayTaskCard from "@/components/TodayTaskCard";
 import Image from "next/image";
 
 const percent = 70;
 
+const todaytask = [
+  {
+    img: "/todaytaskimg.svg",
+    title: "Creating Awesome Mobile Apps",
+    role: "UI UX Designer",
+    progresspercent: "90",
+    daysleft: "1 hour",
+    mentorsincharge: [
+      "/boyinredbg.svg",
+      "/girlinwhite.svg",
+      "/girlinhat.svg",
+      "/boyinred.svg",
+      "/girlinhijab.svg",
+    ],
+  },
+];
+
 export default function Overview() {
   return (
     <div className="flex font-[Jakarta] text-foreground">
-      <div className="p-8 bg-[#FAFAFA] w-full">
+      <div className="xl:p-8 p-5 bg-[#FAFAFA] w-full">
         <div className="flex items-center">
           <div className="flex flex-col gap-2">
             <p className="text-[24px]">Hi, Skylar Dias</p>
@@ -64,8 +83,8 @@ export default function Overview() {
             </div>
           </div>
 
-          <div className="bg-[#F5F5F7] flex-1 rounded-[10px] p-5 flex flex-col justify-between h-53.5 xl:h-63">
-            <div className="flex justify-between">
+          <div className="bg-[#F5F5F7] flex-1 rounded-[10px] p-5 flex flex-col justify-between">
+            <div className="flex justify-between mb-5">
               <p className="text-[16px]">Activity</p>
               <div className="flex items-center gap-4 cursor-pointer">
                 <p className="font-[Jakartamd] text-[12px]">This Week</p>
@@ -79,7 +98,7 @@ export default function Overview() {
               </div>
             </div>
 
-            <div className="">
+            <div>
               <Image
                 src="/taskstats.svg"
                 alt="logo"
@@ -97,9 +116,54 @@ export default function Overview() {
         <UpcomingTask />
       </div>
 
-      <div className="xl:w-[45%] w-[39%] p-5 flex flex-col gap-8">
-        <div className="bg-white h-32 w-full rounded-[10px]"></div>
-        <div className="bg-white h-full rounded-[10px] p-6"></div>
+      <div className="xl:w-[50%] p-4 xl:p-6 flex flex-col gap-5 xl:gap-7">
+        <CustomMiniCalendar />
+
+        <div className="bg-white h-full rounded-[10px] p-6 flex flex-col">
+          <div className="flex justify-between items-center">
+            <p className="text-[14px]">Task Today</p>
+            <Image
+              src="/threedots.svg"
+              alt="month-next"
+              width={20}
+              height={20}
+              className="rotate-180"
+            />
+          </div>
+
+          <div className="mt-5">
+            {todaytask
+              .map((task, idx) => (
+                <TodayTaskCard key={idx} {...task} />
+              ))}
+          </div>
+
+          <div className="mt-16 flex flex-col flex-1">
+            <div className="flex justify-between items-start">
+                <p className="text-[16px]">Detail Task</p>
+                <p className="text-[12px] font-[Jakartamd] text-[#9C9CA4]">UI / UX Designer</p>
+            </div>
+
+            <div className="mt-5 flex flex-col gap-5">
+                <div className="flex gap-3 items-center">
+                    <div className="bg-[#F5F5F7] w-9 h-9 rounded-[10px] flex items-center justify-center text-[14px]">1</div>
+                    <p className="text-[14px] font-[Jakartamd] leading-normal flex-1">Understanding the tools in Figma</p>
+                </div>
+
+                <div className="flex gap-3 items-center">
+                    <div className="bg-[#F5F5F7] w-9 h-9 rounded-[10px] flex items-center justify-center text-[14px]">2</div>
+                    <p className="text-[14px] font-[Jakartamd] leading-normal flex-1">Understand the basics of making designs</p>
+                </div>
+
+                <div className="flex gap-3 items-center">
+                    <div className="bg-[#F5F5F7] w-9 h-9 rounded-[10px] flex items-center justify-center text-[14px]">3</div>
+                    <p className="text-[14px] font-[Jakartamd] leading-normal flex-1">Design a mobile application with figma</p>
+                </div>
+            </div>
+
+            <button className="w-full bg-[#546FFF] py-3 rounded-[10px] text-white text-[14px] mt-auto">Go To Detail</button>
+          </div>
+        </div>
       </div>
     </div>
   );

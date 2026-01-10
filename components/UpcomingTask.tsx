@@ -10,7 +10,7 @@ const tasks = [
     title: "Creating Mobile App Design",
     role: "UI UX Design",
     progresspercent: "75",
-    daysleft: "3",
+    daysleft: "3 Days Left",
     mentorsincharge: [
       "/boyinredbg.svg",
       "/girlonhoodie.svg",
@@ -24,7 +24,7 @@ const tasks = [
     title: "Creating Perfect Website",
     role: "Web Developer",
     progresspercent: "45",
-    daysleft: "6",
+    daysleft: "6 Days Left",
     mentorsincharge: [
       "/girlinwhite.svg",
       "/boyinred.svg",
@@ -38,7 +38,7 @@ const tasks = [
     title: "Dashboard Redesign",
     role: "Product Design",
     progresspercent: "60",
-    daysleft: "4",
+    daysleft: "4 Days Left",
     mentorsincharge: [
       "/boyincap.svg",
       "/girlinwhite.svg",
@@ -50,7 +50,7 @@ const tasks = [
     title: "API Integration",
     role: "Backend Dev",
     progresspercent: "30",
-    daysleft: "8",
+    daysleft: "8 Days Left",
     mentorsincharge: [
       "/whitedudeinblack.svg",
       "/boyinred.svg",

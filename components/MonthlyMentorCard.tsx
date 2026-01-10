@@ -23,7 +23,7 @@ export default function MonthlyMentorCard({
   const [followed, setFollowed] = useState(false);
 
   return (
-    <div className="p-6 flex flex-col gap-5 font-[Jakarta] text-foreground bg-white rounded-[10px]">
+    <div className="xl:p-6 p-5 flex flex-col gap-5 font-[Jakarta] text-foreground bg-white rounded-[10px]">
       <div className="flex gap-10 items-center">
         <div className="flex gap-2 items-center">
           <Image src={img} alt="logo" width={48} height={48} priority />

@@ -22,7 +22,7 @@ export default function UpcomingTaskCard({
   const progress = progresspercent;
 
   return (
-    <div className="p-6 font-[Jakarta] text-foreground bg-white rounded-[10px]">
+    <div className="xl:p-6 p-5 font-[Jakarta] text-foreground bg-white rounded-[10px]">
       <Image src={img} alt="logo" width={280} height={110} priority />
 
       <div className="my-4 flex flex-col gap-1">
@@ -33,7 +33,7 @@ export default function UpcomingTaskCard({
       <div className="flex flex-col gap-3 mb-4">
         <div className="flex justify-between text-[16px]">
           <p>Progress</p>
-          <p className="text-[#546FFF] opacity-80">{progress}%</p>
+          <p className="text-[#546FFF] opacity-90">{progress}%</p>
         </div>
 
         <div className="relative w-full h-2 rounded-full bg-[#BAC8FF]">
@@ -54,10 +54,9 @@ export default function UpcomingTaskCard({
       <div className="flex justify-between">
         <div className="flex gap-2">
           <Image src="/clock.svg" alt="logo" width={19} height={19} priority />
-          <p className="text-[16px] font-[Jakartamd]">{daysleft} Days Left</p>
+          <p className="text-[16px] font-[Jakartamd]">{daysleft}</p>
         </div>
 
-        {/* mentors in charge */}
         <div className="flex">
           {mentorsincharge.map((mentor, index) => (
             <div
