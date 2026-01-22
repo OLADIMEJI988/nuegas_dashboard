@@ -68,8 +68,8 @@ export default function SideMenuLayout() {
   };
 
   return (
-    <div className="flex min-h-screen font-[Jakarta]">
-      <div className="w-55 xl:w-63 bg-white p-5 xl:p-8 flex flex-col min-h-full border-r border-r-[#F5F5F7]">
+    <div className="flex min-h-screen w-full overflow-x-hidden font-[Jakarta]">
+      <div className="w-55 xl:w-63 shrink-0 bg-white p-5 xl:p-8 flex flex-col min-h-full border-r border-r-[#F5F5F7]">
         <div className="flex items-center gap-3 mb-15">
           <Image src="/logo.svg" alt="logo" width={40} height={40} priority />
           <p className="text-2xl font-bold tracking-tight">Nuegas</p>
@@ -156,7 +156,7 @@ export default function SideMenuLayout() {
         </div>
       </div>
 
-      <main className="flex-1 bg-[#F5F5F7]">{renderContent()}</main>
+      <main className="flex-1 max-w-full overflow-x-hidden bg-[#F5F5F7]">{renderContent()}</main>
     </div>
   );
 }

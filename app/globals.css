@@ -34,6 +34,22 @@
   --breakpoint-xl: 1350px;
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;             /* width of scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #FAFAFA;    /* track color */
+  border-radius: 10px;    /* rounded track */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #F5F5F7;  /* thumb (draggable part) color */
+  border-radius: 10px;        /* rounded thumb */
+  border: 2px solid #FAFAFA; /* optional spacing around thumb */
+}
+
+
 /* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

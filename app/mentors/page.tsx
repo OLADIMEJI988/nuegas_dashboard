@@ -4,20 +4,185 @@ import { useState } from "react";
 import Image from "next/image";
 import MonthlyMentorCard from "@/components/MonthlyMentorCard";
 
-const mentors = [
-  { img: "/boyincap.svg", name: "Curious George", role: "UI UX Design", tasknum: "40", rating: "4.7", reviewnum: "750" },
-  { img: "/blackdude.svg", name: "Abraham Lincoln", role: "3D Design", tasknum: "32", rating: "4.9", reviewnum: "510" },
-  { img: "/girlinhijab.svg", name: "Jane Doe", role: "Product Design", tasknum: "28", rating: "4.6", reviewnum: "320" },
-  { img: "/whitedudeinblack.svg", name: "Oladimeji Smith", role: "Frontend Dev", tasknum: "36", rating: "4.8", reviewnum: "640" },
-  { img: "/boyinred.svg", name: "Samuel Green", role: "Backend Dev", tasknum: "30", rating: "4.5", reviewnum: "410" },
-  { img: "/girlinwhite.svg", name: "Amara Johnson", role: "UI Research", tasknum: "34", rating: "4.3", reviewnum: "290" },
+const recentmentors = [
+  {
+    img: "/boyincap.svg",
+    name: "Curious George",
+    role: "UI UX Design",
+    tasknum: "40",
+    rating: "4.7",
+    reviewnum: "750",
+  },
+  {
+    img: "/blackdude.svg",
+    name: "Abraham Lincoln",
+    role: "3D Design",
+    tasknum: "32",
+    rating: "4.9",
+    reviewnum: "510",
+  },
+  {
+    img: "/girlinhijab.svg",
+    name: "Jane Doe",
+    role: "Product Design",
+    tasknum: "28",
+    rating: "4.6",
+    reviewnum: "320",
+  },
+  {
+    img: "/whitedudeinblack.svg",
+    name: "Oladimeji Smith",
+    role: "Frontend Dev",
+    tasknum: "36",
+    rating: "4.8",
+    reviewnum: "640",
+  },
+  {
+    img: "/boyinred.svg",
+    name: "Samuel Green",
+    role: "Backend Dev",
+    tasknum: "30",
+    rating: "4.5",
+    reviewnum: "410",
+  },
+  {
+    img: "/girlinwhite.svg",
+    name: "Amara Johnson",
+    role: "UI Research",
+    tasknum: "34",
+    rating: "4.3",
+    reviewnum: "290",
+  },
 ];
 
+const mentors = [
+  {
+    img: "/michealstone.svg",
+    name: "Michael Stone",
+    role: "UX Researcher",
+    about:
+      "Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . . ",
+    tasknum: "27",
+    rating: "4.4",
+    reviewnum: "305",
+  },
+  {
+    img: "/girlinhat.svg",
+    name: "Sophia Turner",
+    role: "Visual Designer",
+    about:
+      "Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . . ",
+    tasknum: "41",
+    rating: "4.8",
+    reviewnum: "690",
+  },
+  {
+    img: "/dudeonshades.svg",
+    name: "Daniel Brooks",
+    role: "Motion Designer",
+    about:
+      "Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . . ",
+    tasknum: "29",
+    rating: "4.6",
+    reviewnum: "380",
+  },
+  {
+    img: "/boyincap.svg",
+    name: "Curious George",
+    role: "UI UX Design",
+    tasknum: "40",
+    rating: "4.7",
+    about:
+      "Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . . ",
+    reviewnum: "750",
+  },
+  {
+    img: "/blackdude.svg",
+    name: "Abraham Lincoln",
+    role: "3D Design",
+    tasknum: "32",
+    rating: "4.9",
+    about:
+      "Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . . ",
+    reviewnum: "510",
+  },
+  {
+    img: "/girlinhijab.svg",
+    name: "Jane Doe",
+    role: "Product Design",
+    tasknum: "28",
+    rating: "4.6",
+    about:
+      "Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . . ",
+    reviewnum: "320",
+  },
+  {
+    img: "/whitedudeinblack.svg",
+    name: "Oladimeji Smith",
+    role: "Frontend Dev",
+    about:
+      "Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . . ",
+    tasknum: "36",
+    rating: "4.8",
+    reviewnum: "640",
+  },
+  {
+    img: "/boyinred.svg",
+    name: "Samuel Green",
+    role: "Backend Dev",
+    about:
+      "Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . . ",
+    tasknum: "30",
+    rating: "4.5",
+    reviewnum: "410",
+  },
+  {
+    img: "/girlinwhite.svg",
+    name: "Amara Johnson",
+    role: "UI Research",
+    about:
+      "Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . . ",
+    tasknum: "34",
+    rating: "4.3",
+    reviewnum: "290",
+  },
+  {
+    img: "/girlonhoodie.svg",
+    name: "Emily Carter",
+    role: "UI Designer",
+    about:
+      "Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . . ",
+    tasknum: "33",
+    rating: "4.7",
+    reviewnum: "455",
+  },
+  {
+    img: "/boyinredbg.svg",
+    name: "Joshua Williams",
+    role: "Fullstack Developer",
+    about:
+      "Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . . ",
+    tasknum: "38",
+    rating: "4.9",
+    reviewnum: "720",
+  },
+  {
+    img: "/dudewlonghair.svg",
+    name: "Kevin Adams",
+    role: "Interaction Designer",
+    about:
+      "Hi, I'm Jessica Jane. I am a doctoral student at Harvard University majoring in Web . . . ",
+    tasknum: "31",
+    rating: "4.5",
+    reviewnum: "398",
+  },
+];
 
 export default function Mentors() {
+  const showAbout = true;
   const [page, setPage] = useState(0);
   const cardsPerPage = 3;
-  const totalPages = Math.ceil(mentors.length / cardsPerPage);
+  const totalPages = Math.ceil(recentmentors.length / cardsPerPage);
 
   const next = () => setPage((p) => Math.min(p + 1, totalPages - 1));
   const prev = () => setPage((p) => Math.max(p - 1, 0));
@@ -122,8 +287,8 @@ export default function Mentors() {
 
         <div className="relative overflow-hidden mt-4.5">
           <div className="flex justify-between invisible pointer-events-none">
-            <MonthlyMentorCard {...mentors[0]} />
-            <MonthlyMentorCard {...mentors[1]} />
+            <MonthlyMentorCard {...recentmentors[0]} showAbout={showAbout} />
+            <MonthlyMentorCard {...recentmentors[1]} showAbout={showAbout} />
           </div>
 
           <div
@@ -135,17 +300,35 @@ export default function Mentors() {
                 key={pageIndex}
                 className="w-full flex justify-between shrink-0"
               >
-                {mentors
+                {recentmentors
                   .slice(
                     pageIndex * cardsPerPage,
                     pageIndex * cardsPerPage + cardsPerPage
                   )
-                  .map((mentor, i) => (
-                    <MonthlyMentorCard key={i} {...mentor} />
+                  .map((recentmentor, i) => (
+                    <MonthlyMentorCard
+                      key={i}
+                      {...recentmentor}
+                      showAbout={showAbout}
+                    />
                   ))}
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      <div className="p-8">
+        <div className="mb-4.5">
+          <p className="text-[24px]">Mentors</p>
+        </div>
+
+        <div className="flex flex-wrap justify-between gap-y-8">
+          {mentors.map((mentor, index) => (
+            <div key={index} className="xl:w-[32%] w-[32.7%]">
+              <MonthlyMentorCard {...mentor} showAbout={true} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

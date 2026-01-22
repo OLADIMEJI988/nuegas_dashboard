@@ -21,10 +21,10 @@ const timeLimitTasks = [
   },
   {
     img: "/fourthtaskimg.svg",
-    title: "Creating Perfect Website",
+    title: "Creating Fresh Website",
     role: "Web Developer",
     progresspercent: "85",
-    daysleft: "2 Hour",
+    daysleft: "2 Hours",
     mentorsincharge: [
       "/girlinwhite.svg",
       "/boyinred.svg",
@@ -46,7 +46,7 @@ const timeLimitTasks = [
     title: "Creating Mobile App Design",
     role: "UI UX Design",
     progresspercent: "75",
-    daysleft: "3 Days Left",
+    daysleft: "2 Hours",
     mentorsincharge: [
       "/boyinredbg.svg",
       "/girlonhoodie.svg",
@@ -60,7 +60,7 @@ const timeLimitTasks = [
     title: "Creating Perfect Website",
     role: "Web Developer",
     progresspercent: "45",
-    daysleft: "6 Days Left",
+    daysleft: "6 Hours",
     mentorsincharge: [
       "/girlinwhite.svg",
       "/boyinred.svg",
@@ -74,7 +74,7 @@ const timeLimitTasks = [
     title: "Dashboard Redesign",
     role: "Product Design",
     progresspercent: "60",
-    daysleft: "4 Days Left",
+    daysleft: "5 Hours",
     mentorsincharge: ["/boyincap.svg", "/girlinwhite.svg", "/blackdude.svg"],
   },
 ];
@@ -120,8 +120,8 @@ const newTasks = [
     img: "/thirdtaskimg.svg",
     title: "Creating Awesome Mobiles",
     role: "UI UX Design",
-    progresspercent: "90",
-    daysleft: "1 Hour",
+    progresspercent: "45",
+    daysleft: "5 Days Left",
     mentorsincharge: [
       "/boyinredbg.svg",
       "/girlonhoodie.svg",
@@ -134,8 +134,8 @@ const newTasks = [
     img: "/fourthtaskimg.svg",
     title: "Creating Perfect Website",
     role: "Web Developer",
-    progresspercent: "85",
-    daysleft: "2 Hour",
+    progresspercent: "75",
+    daysleft: "3 Days Left",
     mentorsincharge: [
       "/girlinwhite.svg",
       "/boyinred.svg",
@@ -148,8 +148,8 @@ const newTasks = [
     img: "/fifthtaskimg.svg",
     title: "Creating Color Palletes",
     role: "UI UX Design",
-    progresspercent: "100",
-    daysleft: "1 Hour",
+    progresspercent: "80",
+    daysleft: "2 Days Left",
     mentorsincharge: ["/boyincap.svg", "/girlinwhite.svg", "/blackdude.svg"],
   },
 ];
@@ -157,25 +157,82 @@ const newTasks = [
 const PAGE_SIZE = 3;
 
 export default function Task() {
-  const [pages, setPages] = useState({
-    timeLimit: 0,
-    newTask: 0,
-  });
+  const [pages, setPages] = useState({ timeLimit: 0, newTask: 0 });
 
-  const getVisibleTasks = (data: any[], page: number) => {
-    const start = page * PAGE_SIZE;
-    return data.slice(start, start + PAGE_SIZE);
+  const getTotalPages = (tasks: any[]) => Math.ceil(tasks.length / PAGE_SIZE);
+
+  const renderCarousel = (
+    tasks: any[],
+    page: number,
+    title: string,
+    pageKey: "timeLimit" | "newTask"
+  ) => {
+    const totalPages = getTotalPages(tasks);
+
+    return (
+      <div className="p-8">
+        <div className="flex justify-between mb-4 items-center">
+          <p className="text-[24px]">{title}</p>
+          <div className="flex justify-between gap-2.5">
+            <Image
+              src="/arrowleft.svg"
+              alt="left"
+              width={24}
+              height={24}
+              className={`cursor-pointer ${page === 0 ? "opacity-40" : ""}`}
+              onClick={() =>
+                setPages((p) => ({
+                  ...p,
+                  [pageKey]: Math.max(p[pageKey] - 1, 0),
+                }))
+              }
+            />
+            <Image
+              src="/arrowright.svg"
+              alt="right"
+              width={24}
+              height={24}
+              className={`cursor-pointer ${
+                page === totalPages - 1 ? "opacity-40" : ""
+              }`}
+              onClick={() =>
+                setPages((p) => ({
+                  ...p,
+                  [pageKey]: Math.min(p[pageKey] + 1, totalPages - 1),
+                }))
+              }
+            />
+          </div>
+        </div>
+
+        {/* Carousel logic */}
+        <div className="relative overflow-hidden">
+          <div
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{
+              transform: `translateX(-${page * 100}%)`,
+            }}
+          >
+            {Array.from({ length: getTotalPages(tasks) }).map((_, i) => (
+              <div key={i} className="w-full shrink-0 flex justify-between">
+                {tasks
+                  .slice(i * PAGE_SIZE, i * PAGE_SIZE + PAGE_SIZE)
+                  .map((task, idx) => (
+                    <UpcomingTaskCard key={idx} {...task} />
+                  ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
   };
 
-  const timeLimitTotalPages = Math.ceil(timeLimitTasks.length / PAGE_SIZE);
-  const newTaskTotalPages = Math.ceil(newTasks.length / PAGE_SIZE);
-
   return (
-    <div className="font-[Jakarta] text-foreground bg-[#FAFAFA]">
-      <div className="p-8 bg-white w-full">
-        <div className="flex items-center">
+    <div className="font-[Jakarta] text-foreground bg-[#FAFAFA] w-full max-w-full overflow-x-hidden">
+      <div className="p-8 bg-white">
+        <div className="flex items-center mb-6">
           <p className="text-[24px]">Explore Task</p>
-
           <div className="ml-auto flex gap-6">
             <button className="border border-[#F5F5F7] w-13 h-13 flex justify-center rounded-full">
               <Image src="/notif.svg" alt="logo" width={24} height={24} />
@@ -184,12 +241,12 @@ export default function Task() {
           </div>
         </div>
 
-        <div className="mt-6 flex justify-between">
+        <div className="flex justify-between">
           <div className="relative w-120">
             <input
               type="text"
               placeholder="Search Task"
-              className="w-full border border-[#F5F5F7] rounded-[10px] py-3.5 pl-7 text-[12px] outline-none"
+              className="w-full border border-[#F5F5F7] rounded-[10px] py-3.5 pl-7 font-[Jakartarg] text-[12px] outline-none focus:outline-none focus:ring-0 focus:border-[#F5F5F7]"
             />
             <Image
               src="/searchicon.svg"
@@ -210,7 +267,6 @@ export default function Task() {
               />
               <p className="text-[12px]">Category</p>
             </div>
-
             <div className="flex items-center py-3.5 px-7 gap-3 border border-[#F5F5F7] rounded-[10px]">
               <Image src="/sorticon.svg" alt="icon" width={20} height={20} />
               <p className="text-[12px]">Sort By : Deadline</p>
@@ -219,97 +275,13 @@ export default function Task() {
         </div>
       </div>
 
-      <div className="p-8">
-        <div className="flex justify-between">
-          <p className="text-[24px]">Time Limit</p>
-
-          <div className="flex w-14.5 justify-between">
-            <Image
-              src="/arrowleft.svg"
-              alt="left"
-              width={24}
-              height={24}
-              className={
-                pages.timeLimit === 0 ? "opacity-40" : "cursor-pointer"
-              }
-              onClick={() =>
-                setPages((p) => ({
-                  ...p,
-                  timeLimit: Math.max(p.timeLimit - 1, 0),
-                }))
-              }
-            />
-            <Image
-              src="/arrowright.svg"
-              alt="right"
-              width={24}
-              height={24}
-              className={
-                pages.timeLimit === timeLimitTotalPages - 1
-                  ? "opacity-40"
-                  : "cursor-pointer"
-              }
-              onClick={() =>
-                setPages((p) => ({
-                  ...p,
-                  timeLimit: Math.min(p.timeLimit + 1, timeLimitTotalPages - 1),
-                }))
-              }
-            />
-          </div>
-        </div>
-
-        <div className="flex mt-4.5 gap-6">
-          {getVisibleTasks(timeLimitTasks, pages.timeLimit).map((task, idx) => (
-            <UpcomingTaskCard key={idx} {...task} />
-          ))}
-        </div>
-      </div>
-
-      <div className="p-8">
-        <div className="flex justify-between">
-          <p className="text-[24px]">New Task</p>
-
-          <div className="flex w-14.5 justify-between">
-            <Image
-              src="/arrowleft.svg"
-              alt="left"
-              width={24}
-              height={24}
-              className={pages.newTask === 0 ? "opacity-40" : "cursor-pointer"}
-              onClick={() =>
-                setPages((p) => ({
-                  ...p,
-                  newTask: Math.max(p.newTask - 1, 0),
-                }))
-              }
-            />
-            <Image
-              src="/arrowright.svg"
-              alt="right"
-              width={24}
-              height={24}
-              className={
-                pages.newTask === newTaskTotalPages - 1
-                  ? "opacity-40"
-                  : "cursor-pointer"
-              }
-              onClick={() =>
-                setPages((p) => ({
-                  ...p,
-                  newTask: Math.min(p.newTask + 1, newTaskTotalPages - 1),
-                }))
-              }
-            />
-          </div>
-        </div>
-
-        <div className="flex mt-4.5 gap-6">
-          {getVisibleTasks(newTasks, pages.newTask).map((task, idx) => (
-            <UpcomingTaskCard key={idx} {...task} />
-          ))}
-        </div>
-      </div>
+      {renderCarousel(
+        timeLimitTasks,
+        pages.timeLimit,
+        "Time Limit",
+        "timeLimit"
+      )}
+      {renderCarousel(newTasks, pages.newTask, "New Task", "newTask")}
     </div>
   );
 }

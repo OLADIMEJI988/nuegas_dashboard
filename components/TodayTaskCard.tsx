@@ -17,7 +17,7 @@ export default function TodayTaskCard({
   role,
   progresspercent,
   daysleft,
-  mentorsincharge,
+  mentorsincharge
 }: TodayTaskCardProps) {
   const progress = progresspercent;
 

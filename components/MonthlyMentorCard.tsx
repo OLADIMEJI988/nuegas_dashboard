@@ -7,18 +7,22 @@ interface MentorCardProps {
   img: string;
   name: string;
   role: string;
+  about?: string;
   tasknum: string;
   rating: string;
   reviewnum: string;
+  showAbout: boolean;
 }
 
 export default function MonthlyMentorCard({
   img,
   name,
   role,
+  about,
   tasknum,
   rating,
   reviewnum,
+  showAbout,
 }: MentorCardProps) {
   const [followed, setFollowed] = useState(false);
 
@@ -38,7 +42,7 @@ export default function MonthlyMentorCard({
 
         <button
           onClick={() => setFollowed(true)}
-          className={`font-[Jakartamd] text-[12px] xl:text-[14px] cursor-pointer ${
+          className={`ml-auto font-[Jakartamd] text-[12px] xl:text-[14px] cursor-pointer ${
             followed ? "text-[#54577A]" : "text-[#546FFF]"
           }`}
           disabled={followed}
@@ -46,6 +50,14 @@ export default function MonthlyMentorCard({
           {followed ? "Followed" : "+ Follow"}
         </button>
       </div>
+
+      {showAbout && about && (
+        <div>
+          <p className="text-[#8E92BC] font-[Jakartamd] text-[13px] leading-7">
+            {about}
+          </p>
+        </div>
+      )}
 
       <div className="flex gap-11">
         <div className="flex items-center gap-2">
