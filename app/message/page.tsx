@@ -400,7 +400,6 @@ export default function Message() {
                           : "bg-white shadow-sm shadow-[#EFF1FA] rounded-tl-none"
                       } ${msg.deleted ? "italic text-[#8E92BC]" : ""}`}
                     >
-                      {/* IMAGE */}
                       {msg.image && !msg.deleted && (
                         <img
                           src={msg.image}
@@ -440,7 +439,7 @@ export default function Message() {
                   onClick={() => setImagePreview(null)}
                   className="absolute -top-2 -right-2 bg-[#141522] text-white w-5.5 h-5.5 rounded-full flex items-center justify-center text-[19px] cursor-pointer"
                 >
-                  <p className="-mt-1.5">×</p>
+                  <p className="-mt-1.75">×</p>
                 </button>
               </div>
             )}

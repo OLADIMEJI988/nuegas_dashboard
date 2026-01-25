@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export default function ActivityChart() {
   const data = [
     { day: "S", value: 1 },
@@ -12,9 +14,9 @@ export default function ActivityChart() {
   ];
 
   const maxY = 3;
-  const chartHeight = 160;
-  const chartWidth = 520;
-  const padding = 30;
+  const chartHeight = 90;
+  const chartWidth = 422;
+  const padding = 5;
 
   const getX = (i: number) =>
     padding + (i * (chartWidth - padding * 2)) / (data.length - 1);
@@ -30,24 +32,34 @@ export default function ActivityChart() {
     .map((d, i) => `${i === 0 ? "M" : "L"} ${getX(i)} ${getY(d.value - 0.4)}`)
     .join(" ");
 
-  const activeIndex = 2; // Monday
+  const activeIndex = 2;
 
   return (
-    <div className="bg-[#F7F8FA] rounded-[16px] p-6 w-full max-w-[640px]">
+    <div className="bg-[#F5F5F7] rounded-[10px] p-5 w-full max-w-160 font-[Jakarta]">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-[20px] font-semibold text-[#0F172A]">
-          Activity
-        </h2>
-        <div className="flex items-center gap-2 text-[#0F172A] opacity-70">
-          <span>This Week</span>
-          <span>⌄</span>
+        <h2 className="text-[16px]">Activity</h2>
+        <div className="flex items-center gap-4 cursor-pointer">
+          <p className="font-[Jakartamd] text-[12px]">This Week</p>
+          <Image
+            src="/arrowdown.svg"
+            alt="logo"
+            width={12}
+            height={12}
+            priority
+          />
         </div>
       </div>
 
       {/* Chart Card */}
-      <div className="bg-white rounded-[16px] p-4">
-        <svg width={chartWidth} height={chartHeight} className="w-full">
+      <div className="bg-white rounded-[13px] p-5 overflow-hidden">
+        <svg
+          width="100%"
+          height={chartHeight}
+          viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+          preserveAspectRatio="xMidYMid meet"
+          overflow="visible"
+        >
           {/* Grid Lines */}
           {[1, 2, 3].map((y) => (
             <line
@@ -65,8 +77,8 @@ export default function ActivityChart() {
           <path
             d={softLinePath}
             fill="none"
-            stroke="#E6EAF5"
-            strokeWidth="4"
+            stroke="#EBEDF7"
+            strokeWidth="3"
             strokeLinecap="round"
           />
 
@@ -74,8 +86,8 @@ export default function ActivityChart() {
           <path
             d={linePath}
             fill="none"
-            stroke="#0F172A"
-            strokeWidth="4"
+            stroke="#141522"
+            strokeWidth="3"
             strokeLinecap="round"
           />
 
@@ -89,36 +101,21 @@ export default function ActivityChart() {
           <circle
             cx={getX(activeIndex)}
             cy={getY(data[activeIndex].value)}
-            r="4"
+            r="5"
             fill="white"
           />
 
           {/* Tooltip */}
           <g
             transform={`translate(${getX(activeIndex) - 45}, ${
-              getY(data[activeIndex].value) - 55
+              getY(data[activeIndex].value) - 66
             })`}
           >
-            <rect
-              width="90"
-              height="36"
-              rx="12"
-              fill="#0F172A"
-            />
-            <text
-              x="45"
-              y="23"
-              textAnchor="middle"
-              fill="white"
-              fontSize="14"
-              fontWeight="500"
-            >
+            <rect width="84" height="40" rx="10" fill="#141522" />
+            <text x="42" y="25" textAnchor="middle" fill="white" fontSize="14">
               2 Task
             </text>
-            <polygon
-              points="40,36 50,36 45,44"
-              fill="#0F172A"
-            />
+            <polygon points="40,39 52,36 45,45" fill="#141522" />
           </g>
 
           {/* X Labels */}
@@ -126,10 +123,11 @@ export default function ActivityChart() {
             <text
               key={i}
               x={getX(i)}
-              y={chartHeight - 6}
+              y={chartHeight}
               textAnchor="middle"
               fontSize="12"
               fill="#64748B"
+              className="font-[Jakartamd]"
             >
               {d.day}
             </text>

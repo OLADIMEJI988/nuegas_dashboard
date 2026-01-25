@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import MonthlyMentorCard from "@/components/MonthlyMentorCard";
+import MentorsSkeleton from "@/components/MentorsSkeleton";
 
 const recentmentors = [
   {
@@ -187,6 +188,20 @@ export default function Mentors() {
   const next = () => setPage((p) => Math.min(p + 1, totalPages - 1));
   const prev = () => setPage((p) => Math.max(p - 1, 0));
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
+
+    return () => clearTimeout(t);
+  }, []);
+
+  if (isLoading) {
+    return <MentorsSkeleton />;
+  }
+
   return (
     <div className="font-[Jakarta] text-foreground bg-[#FAFAFA]">
       <div className="p-8 bg-white w-full">
@@ -303,7 +318,7 @@ export default function Mentors() {
                 {recentmentors
                   .slice(
                     pageIndex * cardsPerPage,
-                    pageIndex * cardsPerPage + cardsPerPage
+                    pageIndex * cardsPerPage + cardsPerPage,
                   )
                   .map((recentmentor, i) => (
                     <MonthlyMentorCard

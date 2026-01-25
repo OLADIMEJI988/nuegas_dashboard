@@ -1,12 +1,16 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import CustomMiniCalendar from "@/components/CustomMiniCalender";
 import MonthlyMentors from "@/components/MonthlyMentors";
 import UpcomingTask from "@/components/UpcomingTask";
 import TodayTaskCard from "@/components/TodayTaskCard";
 import Image from "next/image";
+import ActivityChart from "@/components/ActivityChart";
+import OverviewSkeleton from "@/components/OverviewSkeleton";
 
-const percent = 70;
+const percent = 45;
 
 const todaytask = [
   {
@@ -26,6 +30,20 @@ const todaytask = [
 ];
 
 export default function Overview() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <OverviewSkeleton />;
+  }
+
   return (
     <div className="flex font-[Jakarta] text-foreground">
       <div className="xl:p-8 p-5 bg-[#FAFAFA] w-full">
@@ -83,32 +101,7 @@ export default function Overview() {
             </div>
           </div>
 
-          <div className="bg-[#F5F5F7] flex-1 rounded-[10px] p-5 flex flex-col justify-between">
-            <div className="flex justify-between mb-5">
-              <p className="text-[16px]">Activity</p>
-              <div className="flex items-center gap-4 cursor-pointer">
-                <p className="font-[Jakartamd] text-[12px]">This Week</p>
-                <Image
-                  src="/arrowdown.svg"
-                  alt="logo"
-                  width={12}
-                  height={12}
-                  priority
-                />
-              </div>
-            </div>
-
-            <div>
-              <Image
-                src="/taskstats.svg"
-                alt="logo"
-                width={400}
-                height={200}
-                className="w-full"
-                priority
-              />
-            </div>
-          </div>
+          <ActivityChart />
         </div>
 
         <MonthlyMentors />
@@ -132,36 +125,51 @@ export default function Overview() {
           </div>
 
           <div className="mt-5">
-            {todaytask
-              .map((task, idx) => (
-                <TodayTaskCard key={idx} {...task} />
-              ))}
+            {todaytask.map((task, idx) => (
+              <TodayTaskCard key={idx} {...task} />
+            ))}
           </div>
 
           <div className="mt-16 flex flex-col flex-1">
             <div className="flex justify-between items-start">
-                <p className="text-[16px]">Detail Task</p>
-                <p className="text-[12px] font-[Jakartamd] text-[#9C9CA4]">UI / UX Designer</p>
+              <p className="text-[16px]">Detail Task</p>
+              <p className="text-[12px] font-[Jakartamd] text-[#9C9CA4]">
+                UI / UX Designer
+              </p>
             </div>
 
             <div className="mt-5 flex flex-col gap-5">
-                <div className="flex gap-3 items-center">
-                    <div className="bg-[#F5F5F7] w-9 h-9 rounded-[10px] flex items-center justify-center text-[14px]">1</div>
-                    <p className="text-[14px] font-[Jakartamd] leading-normal flex-1">Understanding the tools in Figma</p>
+              <div className="flex gap-3 items-center">
+                <div className="bg-[#F5F5F7] w-9 h-9 rounded-[10px] flex items-center justify-center text-[14px]">
+                  1
                 </div>
+                <p className="text-[14px] font-[Jakartamd] leading-normal flex-1">
+                  Understanding the tools in Figma
+                </p>
+              </div>
 
-                <div className="flex gap-3 items-center">
-                    <div className="bg-[#F5F5F7] w-9 h-9 rounded-[10px] flex items-center justify-center text-[14px]">2</div>
-                    <p className="text-[14px] font-[Jakartamd] leading-normal flex-1">Understand the basics of making designs</p>
+              <div className="flex gap-3 items-center">
+                <div className="bg-[#F5F5F7] w-9 h-9 rounded-[10px] flex items-center justify-center text-[14px]">
+                  2
                 </div>
+                <p className="text-[14px] font-[Jakartamd] leading-normal flex-1">
+                  Understand the basics of making designs
+                </p>
+              </div>
 
-                <div className="flex gap-3 items-center">
-                    <div className="bg-[#F5F5F7] w-9 h-9 rounded-[10px] flex items-center justify-center text-[14px]">3</div>
-                    <p className="text-[14px] font-[Jakartamd] leading-normal flex-1">Design a mobile application with figma</p>
+              <div className="flex gap-3 items-center">
+                <div className="bg-[#F5F5F7] w-9 h-9 rounded-[10px] flex items-center justify-center text-[14px]">
+                  3
                 </div>
+                <p className="text-[14px] font-[Jakartamd] leading-normal flex-1">
+                  Design a mobile application with figma
+                </p>
+              </div>
             </div>
 
-            <button className="w-full bg-[#546FFF] py-3 rounded-[10px] text-white text-[14px] mt-auto">Go To Detail</button>
+            <button className="w-full bg-[#546FFF] py-3 rounded-[10px] text-white text-[14px] mt-auto">
+              Go To Detail
+            </button>
           </div>
         </div>
       </div>

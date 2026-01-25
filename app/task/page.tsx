@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import UpcomingTaskCard from "@/components/UpcomingTaskCard";
+import TaskSkeleton from "@/components/TaskSkeleton";
 
 const timeLimitTasks = [
   {
@@ -161,11 +162,25 @@ export default function Task() {
 
   const getTotalPages = (tasks: any[]) => Math.ceil(tasks.length / PAGE_SIZE);
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
+
+    return () => clearTimeout(t);
+  }, []);
+
+  if (isLoading) {
+    return <TaskSkeleton />;
+  }
+
   const renderCarousel = (
     tasks: any[],
     page: number,
     title: string,
-    pageKey: "timeLimit" | "newTask"
+    pageKey: "timeLimit" | "newTask",
   ) => {
     const totalPages = getTotalPages(tasks);
 
@@ -279,7 +294,7 @@ export default function Task() {
         timeLimitTasks,
         pages.timeLimit,
         "Time Limit",
-        "timeLimit"
+        "timeLimit",
       )}
       {renderCarousel(newTasks, pages.newTask, "New Task", "newTask")}
     </div>
