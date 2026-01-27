@@ -160,19 +160,25 @@ const PAGE_SIZE = 3;
 export default function Task() {
   const [pages, setPages] = useState({ timeLimit: 0, newTask: 0 });
 
+  const connection =
+    typeof navigator !== "undefined" ? (navigator as any).connection : null;
+  const isSlowNetwork =
+    connection &&
+    (connection.effectiveType === "2g" || connection.saveData === true);
+
+  const [showSkeleton] = useState(isSlowNetwork);
+  const [isLoading, setIsLoading] = useState(isSlowNetwork);
+
   const getTotalPages = (tasks: any[]) => Math.ceil(tasks.length / PAGE_SIZE);
 
-  const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
-    const t = setTimeout(() => {
-      setIsLoading(false);
-    }, 300);
+    if (!showSkeleton) return;
 
-    return () => clearTimeout(t);
-  }, []);
+    const timer = setTimeout(() => setIsLoading(false), 300);
+    return () => clearTimeout(timer);
+  }, [showSkeleton]);
 
-  if (isLoading) {
+  if (isLoading && showSkeleton) {
     return <TaskSkeleton />;
   }
 

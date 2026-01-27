@@ -30,17 +30,23 @@ const todaytask = [
 ];
 
 export default function Overview() {
-  const [isLoading, setIsLoading] = useState(true);
+  const connection =
+    typeof navigator !== "undefined" ? (navigator as any).connection : null;
+  const isSlowNetwork =
+    connection &&
+    (connection.effectiveType === "2g" || connection.saveData === true);
+
+  const [showSkeleton] = useState(isSlowNetwork); 
+  const [isLoading, setIsLoading] = useState(isSlowNetwork);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 300);
+    if (!showSkeleton) return;
 
+    const timer = setTimeout(() => setIsLoading(false), 300);
     return () => clearTimeout(timer);
-  }, []);
+  }, [showSkeleton]);
 
-  if (isLoading) {
+  if (isLoading && showSkeleton) {
     return <OverviewSkeleton />;
   }
 

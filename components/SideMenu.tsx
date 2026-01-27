@@ -118,14 +118,19 @@ export default function SideMenuLayout() {
         </nav>
 
         <div className="mt-auto">
-          <div className="mt-10 bg-foreground p-4 flex flex-col text-center rounded-[10px] h-62">
-            <div className="flex justify-center -mt-12">
+          <div className="relative mt-10 bg-foreground p-4 flex flex-col text-center rounded-[10px] h-62">
+            <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[10px] z-0">
+              <div className="absolute -top-26 -left-26 w-40 h-40 rounded-full bg-white/8" />
+              <div className="absolute -bottom-22 -right-22 w-40 h-40 rounded-full bg-white/8" />
+            </div>
+
+            <div className="relative z-20 flex justify-center -mt-12">
               <div
                 className="w-16 h-16 bg-white rounded-full flex items-center justify-center"
                 style={{
                   boxShadow: `
-                                0 -8px 20px 0 rgba(0,0,0,0.1),
-                                0 8px 20px 0 rgba(255,255,255,0.25)
+                              0 -8px 20px 0 rgba(0,0,0,0.1),
+                              0 8px 20px 0 rgba(255,255,255,0.25)
                             `,
                 }}
               >
@@ -156,7 +161,9 @@ export default function SideMenuLayout() {
         </div>
       </div>
 
-      <main className="flex-1 max-w-full overflow-x-hidden bg-[#F5F5F7]">{renderContent()}</main>
+      <main className="flex-1 max-w-full overflow-x-hidden bg-[#F5F5F7]">
+        {renderContent()}
+      </main>
     </div>
   );
 }
