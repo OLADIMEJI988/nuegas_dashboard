@@ -173,7 +173,6 @@ export default function Task() {
 
   useEffect(() => {
     if (!showSkeleton) return;
-
     const timer = setTimeout(() => setIsLoading(false), 300);
     return () => clearTimeout(timer);
   }, [showSkeleton]);
@@ -194,7 +193,7 @@ export default function Task() {
       <div className="p-8">
         <div className="flex justify-between mb-4 items-center">
           <p className="text-[24px]">{title}</p>
-          <div className="flex justify-between gap-2.5">
+          <div className="flex gap-2.5">
             <Image
               src="/arrowleft.svg"
               alt="left"
@@ -209,11 +208,11 @@ export default function Task() {
               }
             />
             <Image
-              src="/arrowright.svg"
+              src="/arrow-left.svg"
               alt="right"
               width={24}
               height={24}
-              className={`cursor-pointer ${
+              className={`cursor-pointer rotate-180 ${
                 page === totalPages - 1 ? "opacity-40" : ""
               }`}
               onClick={() =>
@@ -226,15 +225,12 @@ export default function Task() {
           </div>
         </div>
 
-        {/* Carousel logic */}
         <div className="relative overflow-hidden">
           <div
             className="flex transition-transform duration-500 ease-in-out"
-            style={{
-              transform: `translateX(-${page * 100}%)`,
-            }}
+            style={{ transform: `translateX(-${page * 100}%)` }}
           >
-            {Array.from({ length: getTotalPages(tasks) }).map((_, i) => (
+            {Array.from({ length: totalPages }).map((_, i) => (
               <div key={i} className="w-full shrink-0 flex justify-between">
                 {tasks
                   .slice(i * PAGE_SIZE, i * PAGE_SIZE + PAGE_SIZE)
@@ -250,12 +246,12 @@ export default function Task() {
   };
 
   return (
-    <div className="font-[Jakarta] text-foreground bg-[#FAFAFA] w-full max-w-full overflow-x-hidden">
-      <div className="p-8 bg-white">
+    <div className="font-[Jakarta] text-foreground bg-[var(--background)] w-full max-w-full overflow-x-hidden">
+      <div className="p-8 bg-[var(--surface-primary)]">
         <div className="flex items-center mb-6">
           <p className="text-[24px]">Explore Task</p>
           <div className="ml-auto flex gap-6">
-            <button className="border border-[#F5F5F7] w-13 h-13 flex justify-center rounded-full">
+            <button className="border border-[var(--surface-secondary)] w-13 h-13 flex justify-center rounded-full">
               <Image src="/notif.svg" alt="logo" width={24} height={24} />
             </button>
             <Image src="/boyinblack.svg" alt="logo" width={52} height={52} />
@@ -267,7 +263,7 @@ export default function Task() {
             <input
               type="text"
               placeholder="Search Task"
-              className="w-full border border-[#F5F5F7] rounded-[10px] py-3.5 pl-7 font-[Jakartarg] text-[12px] outline-none focus:outline-none focus:ring-0 focus:border-[#F5F5F7]"
+              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 pl-7 font-[Jakartarg] text-[12px] outline-none focus:border-[var(--surface-secondary)]"
             />
             <Image
               src="/searchicon.svg"
@@ -279,16 +275,11 @@ export default function Task() {
           </div>
 
           <div className="flex gap-6">
-            <div className="flex items-center py-3.5 px-7 gap-3 border border-[#F5F5F7] rounded-[10px]">
-              <Image
-                src="/categoryicon.svg"
-                alt="icon"
-                width={20}
-                height={20}
-              />
+            <div className="flex items-center py-3.5 px-7 gap-3 border border-[var(--surface-secondary)] rounded-[10px]">
+              <Image src="/categoryicon.svg" alt="icon" width={20} height={20} />
               <p className="text-[12px]">Category</p>
             </div>
-            <div className="flex items-center py-3.5 px-7 gap-3 border border-[#F5F5F7] rounded-[10px]">
+            <div className="flex items-center py-3.5 px-7 gap-3 border border-[var(--surface-secondary)] rounded-[10px]">
               <Image src="/sorticon.svg" alt="icon" width={20} height={20} />
               <p className="text-[12px]">Sort By : Deadline</p>
             </div>
@@ -296,12 +287,7 @@ export default function Task() {
         </div>
       </div>
 
-      {renderCarousel(
-        timeLimitTasks,
-        pages.timeLimit,
-        "Time Limit",
-        "timeLimit",
-      )}
+      {renderCarousel(timeLimitTasks, pages.timeLimit, "Time Limit", "timeLimit")}
       {renderCarousel(newTasks, pages.newTask, "New Task", "newTask")}
     </div>
   );

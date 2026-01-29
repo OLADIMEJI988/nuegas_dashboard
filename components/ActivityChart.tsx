@@ -35,24 +35,19 @@ export default function ActivityChart() {
   const activeIndex = 2;
 
   return (
-    <div className="bg-[#F5F5F7] rounded-[10px] p-5 w-full max-w-160 font-[Jakarta]">
+    <div className="bg-[var(--surface-secondary)] rounded-[10px] p-5 w-full max-w-160 font-[Jakarta]">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-[16px]">Activity</h2>
         <div className="flex items-center gap-4 cursor-pointer">
-          <p className="font-[Jakartamd] text-[12px]">This Week</p>
-          <Image
-            src="/arrowdown.svg"
-            alt="logo"
-            width={12}
-            height={12}
-            priority
-          />
+          <p className="font-[Jakartamd] text-[12px] text-[var(--text-secondary)]">
+            This Week
+          </p>
+          <Image src="/arrowdown.svg" alt="logo" width={12} height={12} />
         </div>
       </div>
 
-      {/* Chart Card */}
-      <div className="bg-white rounded-[13px] p-5 overflow-hidden">
+      <div className="bg-[var(--surface-primary)] rounded-[13px] p-5 overflow-hidden">
         <svg
           width="100%"
           height={chartHeight}
@@ -60,7 +55,7 @@ export default function ActivityChart() {
           preserveAspectRatio="xMidYMid meet"
           overflow="visible"
         >
-          {/* Grid Lines */}
+          {/* Grid lines */}
           {[1, 2, 3].map((y) => (
             <line
               key={y}
@@ -68,41 +63,41 @@ export default function ActivityChart() {
               x2={chartWidth - padding}
               y1={getY(y)}
               y2={getY(y)}
-              stroke="#E5E7EB"
+              stroke="var(--border-subtle)"
               strokeWidth="1"
             />
           ))}
 
-          {/* Soft Background Line */}
+          {/* Soft background line */}
           <path
             d={softLinePath}
             fill="none"
-            stroke="#EBEDF7"
+            stroke="var(--surface-muted)"
             strokeWidth="3"
             strokeLinecap="round"
           />
 
-          {/* Main Line */}
+          {/* Main line */}
           <path
             d={linePath}
             fill="none"
-            stroke="#141522"
+            stroke="var(--foreground)"
             strokeWidth="3"
             strokeLinecap="round"
           />
 
-          {/* Active Point */}
+          {/* Active point */}
           <circle
             cx={getX(activeIndex)}
             cy={getY(data[activeIndex].value)}
             r="10"
-            fill="#546FFF"
+            fill="var(--accent-primary)"
           />
           <circle
             cx={getX(activeIndex)}
             cy={getY(data[activeIndex].value)}
             r="5"
-            fill="white"
+            fill="var(--surface-primary)"
           />
 
           {/* Tooltip */}
@@ -111,14 +106,28 @@ export default function ActivityChart() {
               getY(data[activeIndex].value) - 66
             })`}
           >
-            <rect width="84" height="40" rx="10" fill="#141522" />
-            <text x="42" y="25" textAnchor="middle" fill="white" fontSize="14">
+            <rect
+              width="84"
+              height="40"
+              rx="10"
+              fill="var(--foreground)"
+            />
+            <text
+              x="42"
+              y="25"
+              textAnchor="middle"
+              fill="var(--surface-primary)"
+              fontSize="14"
+            >
               2 Task
             </text>
-            <polygon points="40,39 52,36 45,45" fill="#141522" />
+            <polygon
+              points="40,39 52,36 45,45"
+              fill="var(--foreground)"
+            />
           </g>
 
-          {/* X Labels */}
+          {/* X-axis labels */}
           {data.map((d, i) => (
             <text
               key={i}
@@ -126,7 +135,7 @@ export default function ActivityChart() {
               y={chartHeight}
               textAnchor="middle"
               fontSize="12"
-              fill="#64748B"
+              fill="var(--text-secondary)"
               className="font-[Jakartamd]"
             >
               {d.day}

@@ -65,7 +65,7 @@ export default function UpcomingTask() {
   const [page, setPage] = useState(0);
 
   return (
-    <div className="mt-8 font-[Jakarta] text-foreground flex flex-col gap-5">
+    <div className="mt-8 font-[Jakarta] text-[var(--foreground)] flex flex-col gap-5">
       <div className="flex justify-between">
         <p className="text-[24px]">Upcoming Task</p>
 
@@ -81,11 +81,11 @@ export default function UpcomingTask() {
           />
 
           <Image
-            src="/arrowright.svg"
+            src="/arrow-left.svg"
             alt="right"
             width={24}
             height={24}
-            className={`cursor-pointer ${
+            className={`cursor-pointer rotate-180 ${
               page === totalPages - 1 ? "opacity-40" : ""
             }`}
             onClick={() =>

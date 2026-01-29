@@ -216,7 +216,9 @@ export default function Message() {
           : shotText,
     };
 
-    setChats(chats.map((c) => (c.name === selectedChat.name ? updatedChat : c)));
+    setChats(
+      chats.map((c) => (c.name === selectedChat.name ? updatedChat : c)),
+    );
     setSelectedChat(updatedChat);
 
     setNewMessage("");
@@ -227,16 +229,16 @@ export default function Message() {
   };
 
   const filteredChats = chats.filter((chat) =>
-    chat.name.toLowerCase().includes(searchTerm.toLowerCase())
+    chat.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
-    <div className="h-full flex flex-col font-[Jakarta] text-foreground bg-[#FAFAFA]">
-      <div className="p-8 bg-white border-b border-b-[#F5F5F7]">
+    <div className="h-full flex flex-col font-[Jakarta] text-[var(--foreground)] bg-[var(--background)]">
+      <div className="p-8 bg-[var(--surface-primary)] border-b border-[var(--surface-secondary)]">
         <div className="flex items-center">
           <p className="text-[24px]">Message</p>
           <div className="ml-auto flex gap-6">
-            <button className="border border-[#F5F5F7] w-13 h-13 flex justify-center rounded-full">
+            <button className="border border-[var(--surface-secondary)] w-13 h-13 flex justify-center rounded-full">
               <Image src="/notif.svg" alt="logo" width={24} height={24} />
             </button>
             <Image src="/boyinblack.svg" alt="logo" width={52} height={52} />
@@ -247,7 +249,7 @@ export default function Message() {
       <div className="flex flex-1 overflow-hidden">
         <div
           ref={leftRef}
-          className="w-[37%] shrink-0 border-r border-r-[#F5F5F7] p-6 bg-white flex flex-col"
+          className="w-[37%] shrink-0 border-r border-[var(--surface-secondary)] p-6 bg-[var(--surface-primary)] flex flex-col"
         >
           <div className="relative w-full">
             <input
@@ -255,10 +257,10 @@ export default function Message() {
               placeholder="Search Name"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full border border-[#F5F5F7] rounded-[10px] py-3.5 pl-7 text-[12px] outline-none"
+              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 pl-7 text-[12px] outline-none"
             />
             <Image
-              src="/darksearchicon.svg"
+              src="/searchicon.svg"
               alt="search"
               width={20}
               height={20}
@@ -286,12 +288,11 @@ export default function Message() {
           </div>
         </div>
 
-        {/* Right Side */}
         <div
-          className="flex-1 min-w-0 bg-[#FAFAFA] flex flex-col"
+          className="flex-1 min-w-0 bg-[var(--background)] flex flex-col"
           style={{ height: leftHeight }}
         >
-          <div className="py-6 px-12 flex justify-between bg-white">
+          <div className="py-6 px-12 flex justify-between bg-[var(--surface-primary)]">
             <div className="flex gap-3 items-center">
               <Image
                 src={selectedChat.img}
@@ -310,7 +311,7 @@ export default function Message() {
             </div>
 
             <div className="flex gap-6">
-              <div className="w-13 h-13 border border-[#F5F5F7] rounded-full flex items-center justify-center">
+              <div className="w-13 h-13 border border-[var(--surface-secondary)] rounded-full flex items-center justify-center">
                 <Image
                   src="/videoicon.svg"
                   alt="logo"
@@ -319,7 +320,7 @@ export default function Message() {
                   priority
                 />
               </div>
-              <div className="w-13 h-13 border border-[#F5F5F7] rounded-full flex items-center justify-center">
+              <div className="w-13 h-13 border border-[var(--surface-secondary)] rounded-full flex items-center justify-center">
                 <Image
                   src="/phoneicon.svg"
                   alt="logo"
@@ -331,11 +332,10 @@ export default function Message() {
             </div>
           </div>
 
-          <div className="flex items-center justify-center mt-6 mb-1 bg-[#141522] text-white mx-auto text-[14px] rounded-[10px] w-17 h-9.25">
+          <div className="flex items-center justify-center mt-6 mb-1 bg-[var(--foreground)] text-[var(--surface-primary)] mx-auto text-[14px] rounded-[10px] w-17 h-9.25">
             <p>Today</p>
           </div>
 
-          {/* Messages */}
           <div className="flex-1 overflow-y-auto overflow-x-hidden px-8 custom-scrollbar">
             {selectedChat.messages.map((msg, i) => {
               const prev = selectedChat.messages[i - 1];
@@ -397,8 +397,8 @@ export default function Message() {
                       className={`px-3 py-2 text-[14px] rounded-[10px] font-[Jakartamd] whitespace-pre-wrap wrap-break-word cursor-pointer ${
                         msg.fromMe
                           ? "bg-[#546FFF] text-white rounded-tr-none"
-                          : "bg-white shadow-sm shadow-[#EFF1FA] rounded-tl-none"
-                      } ${msg.deleted ? "italic text-[#8E92BC]" : ""}`}
+                          : "bg-[var(--surface-primary)] shadow-sm shadow-[var(--surface-soft)] rounded-tl-none"
+                      } ${msg.deleted ? "italic text-[var(--card-caption)]" : ""}`}
                     >
                       {msg.image && !msg.deleted && (
                         <img
@@ -413,7 +413,7 @@ export default function Message() {
 
                     {showTime && msg.createdAt && (
                       <p
-                        className={`mt-0.5 text-[10px] text-[#8E92BC] font-[Jakartarg] ${
+                        className={`mt-0.5 text-[10px] text-[var(--card-caption)] font-[Jakartarg] ${
                           msg.fromMe ? "text-right" : "text-right mt-1"
                         } ${i === selectedChat.messages.length - 1 ? "mb-10" : ""}`}
                       >
@@ -427,17 +427,13 @@ export default function Message() {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="bg-white border-t border-[#F5F5F7] px-6 py-4 flex flex-col gap-3">
+          <div className="bg-[var(--surface-primary)] border-t border-[var(--surface-secondary)] px-6 py-4 flex flex-col gap-3">
             {imagePreview && (
               <div className="relative w-32">
-                <img
-                  src={imagePreview}
-                  alt="preview"
-                  className="rounded-lg"
-                />
+                <img src={imagePreview} alt="preview" className="rounded-lg" />
                 <button
                   onClick={() => setImagePreview(null)}
-                  className="absolute -top-2 -right-2 bg-[#141522] text-white w-5.5 h-5.5 rounded-full flex items-center justify-center text-[19px] cursor-pointer"
+                  className="absolute -top-2 -right-2 bg-[var(--foreground)] text-[var(--surface-primary)] w-5.5 h-5.5 rounded-full flex items-center justify-center text-[19px] cursor-pointer"
                 >
                   <p className="-mt-1.75">×</p>
                 </button>
@@ -451,7 +447,7 @@ export default function Message() {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-                className="flex-1 font-[Jakartamd] text-[14px] placeholder-[#8E92BC] outline-none"
+                className="flex-1 font-[Jakartamd] text-[14px] placeholder-[var(--muted-foreground)] outline-none"
               />
 
               <input
@@ -491,8 +487,8 @@ export default function Message() {
 
       {deleteTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-          <div className="bg-white rounded-[10px] w-[320px] p-5">
-            <p className="text-[14px] font-[Jakartamd] mb-4 text-[#141522]">
+          <div className="bg-[var(--surface-primary)] rounded-[10px] w-[320px] p-5">
+            <p className="text-[14px] font-[Jakartamd] mb-4 text-[var(--foreground)]">
               Delete this message?
             </p>
 
@@ -503,7 +499,6 @@ export default function Message() {
                     if (c.name !== deleteTarget.chatName) return c;
 
                     const msgs = [...c.messages];
-
                     const targetMsg = msgs[deleteTarget.index];
 
                     msgs[deleteTarget.index] = {
@@ -513,7 +508,6 @@ export default function Message() {
                     };
 
                     const lastMsg = msgs[msgs.length - 1];
-
                     let message_shot = "";
 
                     if (lastMsg) {
@@ -538,18 +532,18 @@ export default function Message() {
 
                   setChats(updatedChats);
                   setSelectedChat(
-                    updatedChats.find((c) => c.name === selectedChat.name)!
+                    updatedChats.find((c) => c.name === deleteTarget.chatName)!,
                   );
                   setDeleteTarget(null);
                 }}
-                className="text-red-500 cursor-pointer"
+                className="text-[var(--primary)] font-[Jakartamd]"
               >
                 Delete
               </button>
 
               <button
                 onClick={() => setDeleteTarget(null)}
-                className="text-[#546FFF] cursor-pointer"
+                className="text-[var(--muted-foreground)] font-[Jakartamd]"
               >
                 Cancel
               </button>

@@ -12,20 +12,20 @@ export default function Calendar() {
   useEffect(() => {
     const interval = setInterval(() => {
       setToday(new Date());
-    }, 60 * 1000); 
+    }, 60 * 1000); // update every minute
 
     return () => clearInterval(interval);
   }, []);
 
   const changeWeek = (dir: "prev" | "next") => {
     const d = new Date(baseDate);
-    d.setDate(d.getDate() + (dir === "next" ? 7 : -7));
+    d.setDate(baseDate.getDate() + (dir === "next" ? 7 : -7));
     setBaseDate(d);
   };
 
   const changeMonth = (dir: "prev" | "next") => {
     const d = new Date(baseDate);
-    d.setMonth(d.getMonth() + (dir === "next" ? 1 : -1));
+    d.setMonth(baseDate.getMonth() + (dir === "next" ? 1 : -1));
     setBaseDate(d);
   };
 
@@ -36,7 +36,7 @@ export default function Calendar() {
   });
 
   return (
-    <div className="bg-white w-full rounded-[10px] p-4 xl:p-6 flex flex-col gap-7">
+    <div className="bg-[var(--surface-primary)] w-full rounded-[10px] p-4 xl:p-6 flex flex-col gap-7 text-[var(--foreground)] font-[Jakarta]">
       <div className="flex justify-between items-center">
         <button onClick={() => changeMonth("prev")} className="flex cursor-pointer">
           <Image
@@ -101,14 +101,18 @@ export default function Calendar() {
             <div
               key={i}
               className={`flex flex-col h-17 p-1 rounded-t-full rounded-b-full items-center ${
-                isToday ? "bg-foreground text-white" : "text-foreground"
+                isToday
+                  ? "bg-[var(--foreground)] text-[var(--surface-primary)]"
+                  : "text-[var(--foreground)]"
               }`}
             >
               <p className="text-[12px] mb-auto">{DAYS[i]}</p>
 
               <div
                 className={`w-8 h-8 text-[12px] flex items-center justify-center rounded-full ${
-                  isToday ? "bg-[#546FFF]" : "bg-[#F5F5F7]"
+                  isToday
+                    ? "bg-[var(--accent-primary)]"
+                    : "bg-[var(--surface-secondary)]"
                 }`}
               >
                 <p>{date.getDate()}</p>

@@ -27,14 +27,14 @@ export default function MonthlyMentorCard({
   const [followed, setFollowed] = useState(false);
 
   return (
-    <div className="xl:p-6 p-5 flex flex-col gap-5 font-[Jakarta] text-foreground bg-white rounded-[10px]">
+    <div className="xl:p-6 p-5 flex flex-col gap-5 font-[Jakarta] text-[var(--foreground)] bg-[var(--surface-primary)] rounded-[10px]">
       <div className="flex gap-10 items-center">
         <div className="flex gap-2 items-center">
           <Image src={img} alt="logo" width={48} height={48} priority />
 
           <div className="flex flex-col gap-1">
             <p className="text-[16px]">{name}</p>
-            <p className="font-[Jakartamd] text-[12px] text-[#54577A]">
+            <p className="font-[Jakartamd] text-[12px] text-[var(--text-secondary)]">
               {role}
             </p>
           </div>
@@ -43,7 +43,9 @@ export default function MonthlyMentorCard({
         <button
           onClick={() => setFollowed(true)}
           className={`ml-auto font-[Jakartamd] text-[12px] xl:text-[14px] cursor-pointer ${
-            followed ? "text-[#54577A]" : "text-[#546FFF]"
+            followed
+              ? "text-[var(--text-secondary)]"
+              : "text-[var(--accent-primary)]"
           }`}
           disabled={followed}
         >
@@ -53,7 +55,7 @@ export default function MonthlyMentorCard({
 
       {showAbout && about && (
         <div>
-          <p className="text-[#8E92BC] font-[Jakartamd] text-[13px] leading-7">
+          <p className="text-[var(--text-caption)] font-[Jakartamd] text-[13px] leading-7">
             {about}
           </p>
         </div>

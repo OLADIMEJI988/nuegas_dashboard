@@ -193,13 +193,12 @@ export default function Mentors() {
   const isSlowNetwork =
     connection && (connection.effectiveType === "2g" || connection.saveData === true);
 
-  const [showSkeleton] = useState(isSlowNetwork); 
+  const [showSkeleton] = useState(isSlowNetwork);
   const [isLoading, setIsLoading] = useState(isSlowNetwork);
 
   useEffect(() => {
     if (!showSkeleton) return;
-
-    const timer = setTimeout(() => setIsLoading(false), 300); 
+    const timer = setTimeout(() => setIsLoading(false), 300);
     return () => clearTimeout(timer);
   }, [showSkeleton]);
 
@@ -208,13 +207,13 @@ export default function Mentors() {
   }
 
   return (
-    <div className="font-[Jakarta] text-foreground bg-[#FAFAFA]">
-      <div className="p-8 bg-white w-full">
+    <div className="font-[Jakarta] text-foreground bg-[var(--background)]">
+      <div className="p-8 bg-[var(--surface-primary)] w-full">
         <div className="flex items-center">
           <p className="text-[24px]">Explore Mentors</p>
 
           <div className="ml-auto flex gap-6">
-            <button className="border border-[#F5F5F7] w-13 h-13 flex justify-center rounded-full cursor-pointer">
+            <button className="border border-[var(--surface-secondary)] w-13 h-13 flex justify-center rounded-full cursor-pointer">
               <Image src="/notif.svg" alt="logo" width={24} height={24} priority />
             </button>
 
@@ -227,7 +226,7 @@ export default function Mentors() {
             <input
               type="text"
               placeholder="Search Mentors"
-              className="w-full border border-[#F5F5F7] rounded-[10px] py-3.5 pl-7 font-[Jakartarg] text-[12px] outline-none focus:outline-none focus:ring-0 focus:border-[#F5F5F7]"
+              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 pl-7 font-[Jakartarg] text-[12px] outline-none focus:border-[var(--surface-secondary)]"
             />
 
             <Image
@@ -241,12 +240,12 @@ export default function Mentors() {
           </div>
 
           <div className="flex gap-6">
-            <div className="flex items-center py-3.5 px-7 gap-3 border border-[#F5F5F7] rounded-[10px]">
+            <div className="flex items-center py-3.5 px-7 gap-3 border border-[var(--surface-secondary)] rounded-[10px]">
               <Image src="/categoryicon.svg" alt="icon" width={20} height={20} priority />
               <p className="text-[12px]">Category</p>
             </div>
 
-            <div className="flex items-center py-3.5 px-7 gap-3 border border-[#F5F5F7] rounded-[10px]">
+            <div className="flex items-center py-3.5 px-7 gap-3 border border-[var(--surface-secondary)] rounded-[10px]">
               <Image src="/sorticon.svg" alt="icon" width={20} height={20} priority />
               <p className="text-[12px]">Sort By : Popular</p>
             </div>
@@ -254,7 +253,6 @@ export default function Mentors() {
         </div>
       </div>
 
-      {/* Recent Mentors Carousel */}
       <div className="p-8">
         <div className="flex justify-between">
           <p className="text-[24px]">Recent Mentors</p>
@@ -269,11 +267,11 @@ export default function Mentors() {
               priority
             />
             <Image
-              src="/arrowright.svg"
+              src="/arrow-left.svg"
               alt="right"
               width={24}
               height={24}
-              className={`cursor-pointer ${page === totalPages - 1 ? "opacity-40" : ""}`}
+              className={`cursor-pointer rotate-180 ${page === totalPages - 1 ? "opacity-40" : ""}`}
               onClick={next}
               priority
             />
@@ -303,7 +301,6 @@ export default function Mentors() {
         </div>
       </div>
 
-      {/* All Mentors */}
       <div className="p-8">
         <div className="mb-4.5">
           <p className="text-[24px]">Mentors</p>

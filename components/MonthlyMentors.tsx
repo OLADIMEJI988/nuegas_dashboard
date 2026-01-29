@@ -67,6 +67,7 @@ export default function MonthlyMentors() {
 
   return (
     <div className="mt-8 font-[Jakarta] text-foreground flex flex-col gap-5">
+      {/* Header */}
       <div className="flex justify-between">
         <p className="text-[24px]">Monthly Mentors</p>
         <div className="flex w-14.5 justify-between">
@@ -80,11 +81,11 @@ export default function MonthlyMentors() {
             priority
           />
           <Image
-            src="/arrowright.svg"
+            src="/arrow-left.svg"
             alt="right"
             width={24}
             height={24}
-            className={`cursor-pointer ${
+            className={`cursor-pointer rotate-180 ${
               page === totalPages - 1 ? "opacity-40" : ""
             }`}
             onClick={next}
@@ -93,7 +94,9 @@ export default function MonthlyMentors() {
         </div>
       </div>
 
+      {/* Mentors carousel */}
       <div className="relative overflow-hidden">
+        {/* Invisible first two cards for layout */}
         <div className="flex justify-between invisible pointer-events-none">
           <MonthlyMentorCard {...mentors[0]} showAbout={showAbout} />
           <MonthlyMentorCard {...mentors[1]} showAbout={showAbout} />
@@ -114,7 +117,11 @@ export default function MonthlyMentors() {
                   pageIndex * cardsPerPage + cardsPerPage
                 )
                 .map((mentor, i) => (
-                  <MonthlyMentorCard key={i} {...mentor} showAbout={showAbout} />
+                  <MonthlyMentorCard
+                    key={i}
+                    {...mentor}
+                    showAbout={showAbout}
+                  />
                 ))}
             </div>
           ))}
