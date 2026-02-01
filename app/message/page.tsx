@@ -234,7 +234,7 @@ export default function Message() {
 
     const updatedMessages = [...selectedChat.messages, newMsg];
 
-    const shotText = newMessage.trim() || (imagePreview ? "📷 Image" : "");
+    const shotText = newMessage.trim() || (imagePreview ? "📸 Image" : "");
 
     const updatedChat: Chat = {
       ...selectedChat,

@@ -182,13 +182,17 @@ const mentors = [
 export default function Mentors() {
   const showAbout = true;
   const [page, setPage] = useState(0);
-  const [cardsPerPage, setCardsPerPage] = useState(3);
+  const [cardsPerPage, setCardsPerPage] = useState(() => {
+    if (typeof window === "undefined") return 1; 
+    return window.innerWidth <= 768 ? 1 : 3;
+  });
 
   useEffect(() => {
     const updateCardsPerPage = () => {
       setCardsPerPage(window.innerWidth <= 768 ? 1 : 3);
+      setPage(0); 
     };
-    updateCardsPerPage();
+
     window.addEventListener("resize", updateCardsPerPage);
     return () => window.removeEventListener("resize", updateCardsPerPage);
   }, []);
