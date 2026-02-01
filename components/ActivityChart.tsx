@@ -1,8 +1,50 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+function useIsMaxMd() {
+  const [isMaxMd, setIsMaxMd] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+
+    const update = () => setIsMaxMd(mq.matches);
+    update();
+
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return isMaxMd;
+}
 
 export default function ActivityChart() {
+  const isMaxMd = useIsMaxMd();
+
+  const offsetX = 45;
+  const offsetY = 66;
+  const dayFontsize = 12;
+
+  const responsiveOffsetY = isMaxMd ? offsetY + 23 : offsetY;
+  const responsiveOffsetX = isMaxMd ? offsetX + 10 : offsetX;
+  const responsiveFontsize = isMaxMd ? dayFontsize + 2 : dayFontsize;
+
+  const tooltip = {
+    offsetX: isMaxMd ? responsiveOffsetX : offsetX,
+    offsetY: isMaxMd ? responsiveOffsetY : responsiveOffsetY,
+
+    width: isMaxMd ? 94 : 84,
+    height: isMaxMd ? 50 : 40,
+    radius: 10,
+
+    textX: isMaxMd ? 47 : 42,
+    textY: isMaxMd ? 31 : 25,
+    fontSize: isMaxMd ? 17 : 14,
+
+    arrowPoints: isMaxMd ? "50,49 62,46 55,57" : "40,39 52,36 45,45",
+  };
+
   const data = [
     { day: "S", value: 1 },
     { day: "M", value: 2 },
@@ -14,9 +56,11 @@ export default function ActivityChart() {
   ];
 
   const maxY = 3;
-  const chartHeight = 90;
+  const chartHeight = isMaxMd ? 130 : 90;
   const chartWidth = 422;
   const padding = 5;
+
+  const yValue = chartHeight + (isMaxMd ? 4 : 0);
 
   const getX = (i: number) =>
     padding + (i * (chartWidth - padding * 2)) / (data.length - 1);
@@ -47,7 +91,7 @@ export default function ActivityChart() {
         </div>
       </div>
 
-      <div className="bg-[var(--surface-primary)] rounded-[13px] p-5 overflow-hidden">
+      <div className="bg-[var(--surface-primary)] rounded-[13px] max-md:py-3 p-5 overflow-hidden">
         <svg
           width="100%"
           height={chartHeight}
@@ -102,29 +146,29 @@ export default function ActivityChart() {
 
           {/* Tooltip */}
           <g
-            transform={`translate(${getX(activeIndex) - 45}, ${
-              getY(data[activeIndex].value) - 66
-            })`}
+            transform={`translate(
+              ${getX(activeIndex) - tooltip.offsetX},
+              ${getY(data[activeIndex].value) - tooltip.offsetY}
+            )`}
           >
             <rect
-              width="84"
-              height="40"
-              rx="10"
+              width={tooltip.width}
+              height={tooltip.height}
+              rx={tooltip.radius}
               fill="var(--foreground)"
             />
+
             <text
-              x="42"
-              y="25"
+              x={tooltip.textX}
+              y={tooltip.textY}
               textAnchor="middle"
               fill="var(--surface-primary)"
-              fontSize="14"
+              fontSize={tooltip.fontSize}
             >
               2 Task
             </text>
-            <polygon
-              points="40,39 52,36 45,45"
-              fill="var(--foreground)"
-            />
+
+            <polygon points={tooltip.arrowPoints} fill="var(--foreground)" />
           </g>
 
           {/* X-axis labels */}
@@ -132,9 +176,9 @@ export default function ActivityChart() {
             <text
               key={i}
               x={getX(i)}
-              y={chartHeight}
+              y={yValue}
               textAnchor="middle"
-              fontSize="12"
+              fontSize={responsiveFontsize}
               fill="var(--text-secondary)"
               className="font-[Jakartamd]"
             >

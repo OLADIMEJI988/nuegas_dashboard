@@ -36,7 +36,7 @@ export default function Calendar() {
   });
 
   return (
-    <div className="bg-[var(--surface-primary)] w-full rounded-[10px] p-4 xl:p-6 flex flex-col gap-7 text-[var(--foreground)] font-[Jakarta]">
+    <div className="bg-[var(--surface-primary)] w-full rounded-[10px] p-4 max-md:px-5 max-md:py-6 xl:p-6 flex flex-col gap-7 max-md:gap-10 text-[var(--foreground)] font-[Jakarta]">
       <div className="flex justify-between items-center">
         <button onClick={() => changeMonth("prev")} className="flex cursor-pointer">
           <Image
@@ -58,7 +58,7 @@ export default function Calendar() {
           <Image src="/arrow-left.svg" alt="week-prev" width={20} height={20} />
         </button>
 
-        <p className="text-[14px] font-medium">
+        <p className="text-[14px] max-md:text-[15px] font-medium">
           {baseDate.toLocaleString("default", {
             month: "long",
             year: "numeric",
@@ -93,14 +93,14 @@ export default function Calendar() {
         </button>
       </div>
 
-      <div className="flex justify-between gap-0.5">
+      <div className="flex justify-between gap-0.5 max-md:gap-1">
         {weekDates.map((date, i) => {
           const isToday = date.toDateString() === today.toDateString();
 
           return (
             <div
               key={i}
-              className={`flex flex-col h-17 p-1 rounded-t-full rounded-b-full items-center ${
+              className={`flex flex-col h-17 max-md:h-18 p-1 rounded-t-full rounded-b-full items-center ${
                 isToday
                   ? "bg-[var(--foreground)] text-[var(--surface-primary)]"
                   : "text-[var(--foreground)]"

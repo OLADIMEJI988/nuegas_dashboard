@@ -67,7 +67,7 @@ const initialChats: Chat[] = [
       {
         text: "Can we reschedule the meeting?",
         fromMe: false,
-        createdAt: new Date(Date.now() - 5 * 60 * 1000),
+        createdAt: new Date(Date.now() - 26 * 60 * 60 * 1000),
         deleted: false,
       },
     ],
@@ -95,7 +95,7 @@ const initialChats: Chat[] = [
       {
         text: "Hey… remember that crazy message you sent about not giving up? I can’t stop thinking about it, what was going through your mind?",
         fromMe: false,
-        createdAt: new Date(Date.now() - 8 * 60 * 1000),
+        createdAt: new Date(Date.now() - 50 * 60 * 60 * 1000),
         deleted: false,
       },
     ],
@@ -154,6 +154,7 @@ export default function Message() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [mobileView, setMobileView] = useState<"list" | "chat">("list");
   const [deleteTarget, setDeleteTarget] = useState<{
     chatName: string;
     index: number;
@@ -161,6 +162,34 @@ export default function Message() {
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [rightHeight, setRightHeight] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    const updateHeight = () => {
+      if (!leftRef.current) return;
+
+      const topHeader = document.querySelector(
+        ".max-md\\:flex.px-4.py-7",
+      ) as HTMLElement;
+      const headerHeight = topHeader?.offsetHeight || 0;
+
+      const desktopHeight = leftRef.current.offsetHeight;
+
+      const mobileHeight =
+        window.innerHeight - (mobileView === "chat" ? headerHeight : 0);
+
+      if (window.innerWidth >= 768) {
+        setRightHeight(desktopHeight);
+      } else {
+        setRightHeight(mobileHeight);
+      }
+    };
+
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, [mobileView]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -234,7 +263,7 @@ export default function Message() {
 
   return (
     <div className="h-full flex flex-col font-[Jakarta] text-[var(--foreground)] bg-[var(--background)]">
-      <div className="p-8 bg-[var(--surface-primary)] border-b border-[var(--surface-secondary)]">
+      <div className="p-8 bg-[var(--surface-primary)] border-b border-[var(--surface-secondary)] max-md:hidden">
         <div className="flex items-center">
           <p className="text-[24px]">Message</p>
           <div className="ml-auto flex gap-6">
@@ -246,10 +275,17 @@ export default function Message() {
         </div>
       </div>
 
+      {mobileView === "list" && (
+        <div className="hidden max-md:flex w-full pt-4 px-6 bg-[var(--surface-primary)]">
+          <p className="text-[24px]">Message</p>
+        </div>
+      )}
+
       <div className="flex flex-1 overflow-hidden">
         <div
           ref={leftRef}
-          className="w-[37%] shrink-0 border-r border-[var(--surface-secondary)] p-6 bg-[var(--surface-primary)] flex flex-col"
+          className={`w-[37%] max-md:w-full shrink-0 border-r border-[var(--surface-secondary)] p-6 max-md:py-8 bg-[var(--surface-primary)] flex flex-col
+                    ${mobileView === "chat" ? "max-md:hidden" : ""}`}
         >
           <div className="relative w-full">
             <input
@@ -257,7 +293,7 @@ export default function Message() {
               placeholder="Search Name"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 pl-7 text-[12px] outline-none"
+              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 max-md:py-4 pl-7 text-[12px] outline-none"
             />
             <Image
               src="/searchicon.svg"
@@ -275,7 +311,10 @@ export default function Message() {
               return (
                 <div
                   key={index}
-                  onClick={() => setSelectedChat(chat)}
+                  onClick={() => {
+                    setSelectedChat(chat);
+                    setMobileView("chat");
+                  }}
                   className="cursor-pointer"
                 >
                   <ChatDisplay
@@ -288,17 +327,33 @@ export default function Message() {
           </div>
         </div>
 
+        {/* Right side */}
         <div
-          className="flex-1 min-w-0 bg-[var(--background)] flex flex-col"
-          style={{ height: leftHeight }}
+          className={`flex-1 min-w-0 bg-[var(--background)] flex flex-col
+          ${mobileView === "list" ? "max-md:hidden" : ""}`}
+          style={{ height: rightHeight }}
         >
-          <div className="py-6 px-12 flex justify-between bg-[var(--surface-primary)]">
+          <div className="py-6 px-12 max-md:px-4 flex justify-between bg-[var(--surface-primary)]">
             <div className="flex gap-3 items-center">
+              <button
+                onClick={() => setMobileView("list")}
+                className="hidden max-md:flex items-center justify-center mr-4"
+              >
+                <Image
+                  src="/greybackarrow.svg"
+                  alt="logo"
+                  width={20}
+                  height={20}
+                  priority
+                />
+              </button>
+
               <Image
                 src={selectedChat.img}
                 alt="logo"
                 width={52}
                 height={52}
+                className="max-md:w-11 max-md:h-11"
                 priority
               />
               <div>
@@ -310,33 +365,31 @@ export default function Message() {
               </div>
             </div>
 
-            <div className="flex gap-6">
-              <div className="w-13 h-13 border border-[var(--surface-secondary)] rounded-full flex items-center justify-center">
+            <div className="flex gap-6 max-md:gap-4">
+              <div className="w-13 h-13 max-md:w-11 max-md:h-11 border border-[var(--surface-secondary)] rounded-full flex items-center justify-center">
                 <Image
                   src="/videoicon.svg"
                   alt="logo"
                   width={24}
                   height={24}
+                  className="max-md:w-5 max-md:h-5"
                   priority
                 />
               </div>
-              <div className="w-13 h-13 border border-[var(--surface-secondary)] rounded-full flex items-center justify-center">
+              <div className="w-13 h-13 max-md:w-11 max-md:h-11 border border-[var(--surface-secondary)] rounded-full flex items-center justify-center">
                 <Image
                   src="/phoneicon.svg"
                   alt="logo"
                   width={24}
                   height={24}
+                  className="max-md:w-5 max-md:h-5"
                   priority
                 />
               </div>
             </div>
           </div>
 
-          <div className="flex items-center justify-center mt-6 mb-1 bg-[var(--foreground)] text-[var(--surface-primary)] mx-auto text-[14px] rounded-[10px] w-17 h-9.25">
-            <p>Today</p>
-          </div>
-
-          <div className="flex-1 overflow-y-auto overflow-x-hidden px-8 custom-scrollbar">
+          <div className="flex-1 overflow-y-auto overflow-x-hidden px-8 custom-scrollbar min-h-0">
             {selectedChat.messages.map((msg, i) => {
               const prev = selectedChat.messages[i - 1];
               const next = selectedChat.messages[i + 1];
@@ -378,48 +431,89 @@ export default function Message() {
                 }
               }
 
+              const showDayLabel =
+                !prev ||
+                prev.createdAt.toDateString() !== msg.createdAt.toDateString();
+
+              const formatDayLabel = (date: Date) => {
+                const now = new Date();
+                const today = new Date(
+                  now.getFullYear(),
+                  now.getMonth(),
+                  now.getDate(),
+                );
+                const yesterday = new Date(today);
+                yesterday.setDate(today.getDate() - 1);
+
+                const msgDate = new Date(
+                  date.getFullYear(),
+                  date.getMonth(),
+                  date.getDate(),
+                );
+
+                if (msgDate.getTime() === today.getTime()) return "Today";
+                if (msgDate.getTime() === yesterday.getTime())
+                  return "Yesterday";
+
+                return date.toLocaleDateString(undefined, {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                });
+              };
+
               return (
-                <div
-                  key={i}
-                  className={`${marginTop} flex ${
-                    msg.fromMe ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  <div className="max-w-[50%] flex flex-col">
-                    <div
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        setDeleteTarget({
-                          chatName: selectedChat.name,
-                          index: i,
-                        });
-                      }}
-                      className={`px-3 py-2 text-[14px] rounded-[10px] font-[Jakartamd] whitespace-pre-wrap wrap-break-word cursor-pointer ${
-                        msg.fromMe
-                          ? "bg-[#546FFF] text-white rounded-tr-none"
-                          : "bg-[var(--surface-primary)] shadow-sm shadow-[var(--surface-soft)] rounded-tl-none"
-                      } ${msg.deleted ? "italic text-[var(--card-caption)]" : ""}`}
-                    >
-                      {msg.image && !msg.deleted && (
-                        <img
-                          src={msg.image}
-                          alt="sent"
-                          className="mb-2 rounded-lg max-h-60"
-                        />
-                      )}
-
-                      {msg.deleted ? "You deleted this message" : msg.text}
+                <div key={i}>
+                  {showDayLabel && (
+                    <div className="flex justify-center mt-5.5 mb-5.75">
+                      <div className="flex items-center justify-center bg-[var(--foreground)] text-[var(--surface-primary)] mx-auto text-[14px] rounded-[10px] px-3 h-9.25">
+                        {formatDayLabel(msg.createdAt)}
+                      </div>
                     </div>
+                  )}
 
-                    {showTime && msg.createdAt && (
-                      <p
-                        className={`mt-0.5 text-[10px] text-[var(--card-caption)] font-[Jakartarg] ${
-                          msg.fromMe ? "text-right" : "text-right mt-1"
-                        } ${i === selectedChat.messages.length - 1 ? "mb-10" : ""}`}
+                  <div
+                    className={`${marginTop} flex ${
+                      msg.fromMe ? "justify-end" : "justify-start"
+                    }`}
+                  >
+                    <div className="max-w-[50%] max-md:max-w-full flex flex-col">
+                      <div
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                          setDeleteTarget({
+                            chatName: selectedChat.name,
+                            index: i,
+                          });
+                        }}
+                        className={`px-3 py-2 text-[14px] rounded-[10px] font-[Jakartamd] whitespace-pre-wrap wrap-break-word cursor-pointer ${
+                          msg.fromMe
+                            ? "bg-[#546FFF] text-white rounded-tr-none"
+                            : "bg-[var(--surface-primary)] shadow-sm rounded-tl-none"
+                        } ${msg.deleted ? "italic text-[var(--card-caption)]" : ""}`}
+                        style={{ boxShadow: "var(--bubble-shadow)" }}
                       >
-                        {formatBubbleTime(msg.createdAt)}
-                      </p>
-                    )}
+                        {msg.image && !msg.deleted && (
+                          <img
+                            src={msg.image}
+                            alt="sent"
+                            className="mb-2 rounded-lg max-h-60"
+                          />
+                        )}
+
+                        {msg.deleted ? "You deleted this message" : msg.text}
+                      </div>
+
+                      {showTime && msg.createdAt && (
+                        <p
+                          className={`mt-0.5 text-[10px] text-[var(--card-caption)] font-[Jakartarg] ${
+                            msg.fromMe ? "text-right" : "text-right mt-1"
+                          }`}
+                        >
+                          {formatBubbleTime(msg.createdAt)}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               );

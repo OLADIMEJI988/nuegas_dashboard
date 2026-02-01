@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 interface UpcomingTaskCardProps {
   img: string;
@@ -20,10 +21,24 @@ export default function UpcomingTaskCard({
   mentorsincharge,
 }: UpcomingTaskCardProps) {
   const progress = progresspercent;
+  const [isMaxMd, setIsMaxMd] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMaxMd(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <div className="xl:p-6 px-4.5 max-xl:py-5 font-[Jakarta] text-[var(--foreground)] bg-[var(--surface-primary)] rounded-[10px]">
-      <Image src={img} alt="logo" width={280} height={110} priority />
+    <div className="xl:p-6 px-4.5 max-xl:py-5 max-md:p-6 max-md:w-full font-[Jakarta] text-[var(--foreground)] bg-[var(--surface-primary)] rounded-[10px]">
+      <Image
+        src={img}
+        alt="logo"
+        width={isMaxMd ? 500 : 280}
+        height={110}
+        priority
+      />
 
       <div className="my-4 flex flex-col gap-1">
         <p className="text-[16px]">{title}</p>
@@ -32,7 +47,7 @@ export default function UpcomingTaskCard({
         </p>
       </div>
 
-      <div className="flex flex-col gap-3 mb-4">
+      <div className="flex flex-col gap-3 mb-4 max-md:mb-5">
         <div className="flex justify-between text-[16px]">
           <p>Progress</p>
           <p className="text-[var(--accent-primary)] opacity-90">{progress}%</p>

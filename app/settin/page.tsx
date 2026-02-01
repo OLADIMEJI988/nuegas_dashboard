@@ -120,16 +120,19 @@ export default function Settings({ darkMode, setDarkMode }: SettingsProps) {
                 >
                   <span>{selectedLanguage}</span>
                   <Image
-                    src="/arrowdnicon.svg"
+                    src="/arrow-left.svg"
                     alt="toggle"
-                    width={15}
-                    height={15}
-                    className={`transition-transform ${languageOpen ? "rotate-180" : ""}`}
+                    width={18}
+                    height={18}
+                    className={`transition-transform ${languageOpen ? "rotate-90" : "rotate-270"}`}
                   />
                 </button>
 
                 {languageOpen && (
-                  <div className="absolute z-20 top-full left-0 w-full mt-2 bg-[var(--surface-primary)] border border-[var(--surface-secondary)] rounded-[10px] shadow-lg overflow-hidden">
+                  <div
+                    className="absolute z-20 top-full left-0 w-full mt-2 bg-[var(--surface-primary)] border border-[var(--surface-secondary)] rounded-[10px] shadow-sm overflow-hidden"
+                    style={{ boxShadow: "var(--bubble-shadow)" }}
+                  >
                     {languages.map((lang) => (
                       <div
                         key={lang}
@@ -161,15 +164,19 @@ export default function Settings({ darkMode, setDarkMode }: SettingsProps) {
                 >
                   <span>{selectedTimezone}</span>
                   <Image
-                    src="/arrowdnicon.svg"
+                    src="/arrow-left.svg"
                     alt="toggle"
-                    width={15}
-                    height={15}
+                    width={18}
+                    height={18}
+                    className={`transition-transform ${timezoneOpen ? "rotate-90" : "rotate-270"}`}
                   />
                 </button>
 
                 {timezoneOpen && (
-                  <div className="absolute z-20 top-full left-0 w-full mt-2 bg-[var(--surface-primary)] border border-[var(--surface-secondary)] rounded-[10px] shadow-lg overflow-hidden">
+                  <div
+                    className="absolute z-20 top-full left-0 w-full mt-2 bg-[var(--surface-primary)] border border-[var(--surface-secondary)] rounded-[10px] shadow-sm overflow-hidden"
+                    style={{ boxShadow: "var(--bubble-shadow)" }}
+                  >
                     {timezones.map((zone) => (
                       <div
                         key={zone}

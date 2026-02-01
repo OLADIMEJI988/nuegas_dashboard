@@ -182,7 +182,17 @@ const mentors = [
 export default function Mentors() {
   const showAbout = true;
   const [page, setPage] = useState(0);
-  const cardsPerPage = 3;
+  const [cardsPerPage, setCardsPerPage] = useState(3);
+
+  useEffect(() => {
+    const updateCardsPerPage = () => {
+      setCardsPerPage(window.innerWidth <= 768 ? 1 : 3);
+    };
+    updateCardsPerPage();
+    window.addEventListener("resize", updateCardsPerPage);
+    return () => window.removeEventListener("resize", updateCardsPerPage);
+  }, []);
+
   const totalPages = Math.ceil(recentmentors.length / cardsPerPage);
 
   const next = () => setPage((p) => Math.min(p + 1, totalPages - 1));
@@ -191,7 +201,8 @@ export default function Mentors() {
   const connection =
     typeof navigator !== "undefined" ? (navigator as any).connection : null;
   const isSlowNetwork =
-    connection && (connection.effectiveType === "2g" || connection.saveData === true);
+    connection &&
+    (connection.effectiveType === "2g" || connection.saveData === true);
 
   const [showSkeleton] = useState(isSlowNetwork);
   const [isLoading, setIsLoading] = useState(isSlowNetwork);
@@ -208,25 +219,41 @@ export default function Mentors() {
 
   return (
     <div className="font-[Jakarta] text-foreground bg-[var(--background)]">
-      <div className="p-8 bg-[var(--surface-primary)] w-full">
-        <div className="flex items-center">
+      <div className="p-8 max-md:py-0 max-md:px-4 bg-[var(--surface-primary)] w-full">
+        <div className="flex items-center max-md:hidden">
           <p className="text-[24px]">Explore Mentors</p>
 
           <div className="ml-auto flex gap-6">
             <button className="border border-[var(--surface-secondary)] w-13 h-13 flex justify-center rounded-full cursor-pointer">
-              <Image src="/notif.svg" alt="logo" width={24} height={24} priority />
+              <Image
+                src="/notif.svg"
+                alt="logo"
+                width={24}
+                height={24}
+                priority
+              />
             </button>
 
-            <Image src="/boyinblack.svg" alt="logo" width={52} height={52} priority />
+            <Image
+              src="/boyinblack.svg"
+              alt="logo"
+              width={52}
+              height={52}
+              priority
+            />
           </div>
         </div>
 
-        <div className="mt-6 flex justify-between">
-          <div className="relative w-120">
+        <div className="hidden max-md:flex w-full pt-4">
+          <p className="text-[24px]">Explore Mentors</p>
+        </div>
+
+        <div className="mt-6 flex justify-between max-md:mt-0 max-md:pt-8 max-md:pb-6 max-md:gap-6">
+          <div className="relative w-120 max-md:w-full">
             <input
               type="text"
               placeholder="Search Mentors"
-              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 pl-7 font-[Jakartarg] text-[12px] outline-none focus:border-[var(--surface-secondary)]"
+              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 max-md:py-4 pl-7 font-[Jakartarg] text-[12px] outline-none focus:border-[var(--surface-secondary)]"
             />
 
             <Image
@@ -239,21 +266,37 @@ export default function Mentors() {
             />
           </div>
 
-          <div className="flex gap-6">
+          <div className="flex gap-6 max-md:hidden">
             <div className="flex items-center py-3.5 px-7 gap-3 border border-[var(--surface-secondary)] rounded-[10px]">
-              <Image src="/categoryicon.svg" alt="icon" width={20} height={20} priority />
+              <Image
+                src="/categoryicon.svg"
+                alt="icon"
+                width={20}
+                height={20}
+                priority
+              />
               <p className="text-[12px]">Category</p>
             </div>
 
             <div className="flex items-center py-3.5 px-7 gap-3 border border-[var(--surface-secondary)] rounded-[10px]">
-              <Image src="/sorticon.svg" alt="icon" width={20} height={20} priority />
+              <Image
+                src="/sorticon.svg"
+                alt="icon"
+                width={20}
+                height={20}
+                priority
+              />
               <p className="text-[12px]">Sort By : Popular</p>
             </div>
+          </div>
+
+          <div className="hidden max-md:flex items-center p-3.5 border border-[var(--surface-secondary)] rounded-[10px]">
+            <Image src="/settinicon.svg" alt="icon" width={24} height={24} />
           </div>
         </div>
       </div>
 
-      <div className="p-8">
+      <div className="p-8 max-md:px-6">
         <div className="flex justify-between">
           <p className="text-[24px]">Recent Mentors</p>
           <div className="flex w-14.5 justify-between">
@@ -278,7 +321,7 @@ export default function Mentors() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden mt-4.5">
+        <div className="relative overflow-hidden mt-4.5 h-37.5 md:h-auto">
           <div className="flex justify-between invisible pointer-events-none">
             <MonthlyMentorCard {...recentmentors[0]} showAbout={showAbout} />
             <MonthlyMentorCard {...recentmentors[1]} showAbout={showAbout} />
@@ -289,11 +332,21 @@ export default function Mentors() {
             style={{ transform: `translateX(-${page * 100}%)` }}
           >
             {Array.from({ length: totalPages }).map((_, pageIndex) => (
-              <div key={pageIndex} className="w-full flex justify-between shrink-0">
+              <div
+                key={pageIndex}
+                className="w-full flex justify-between shrink-0"
+              >
                 {recentmentors
-                  .slice(pageIndex * cardsPerPage, pageIndex * cardsPerPage + cardsPerPage)
+                  .slice(
+                    pageIndex * cardsPerPage,
+                    pageIndex * cardsPerPage + cardsPerPage,
+                  )
                   .map((recentmentor, i) => (
-                    <MonthlyMentorCard key={i} {...recentmentor} showAbout={showAbout} />
+                    <MonthlyMentorCard
+                      key={i}
+                      {...recentmentor}
+                      showAbout={showAbout}
+                    />
                   ))}
               </div>
             ))}
@@ -301,14 +354,14 @@ export default function Mentors() {
         </div>
       </div>
 
-      <div className="p-8">
+      <div className="p-8 max-md:p-6">
         <div className="mb-4.5">
           <p className="text-[24px]">Mentors</p>
         </div>
 
-        <div className="flex flex-wrap justify-between gap-y-8">
+        <div className="flex max-md:flex-col flex-wrap justify-between gap-y-8">
           {mentors.map((mentor, index) => (
-            <div key={index} className="xl:w-[32%] w-[32.7%]">
+            <div key={index} className="xl:w-[32%] w-[32.7%] max-md:w-full">
               <MonthlyMentorCard {...mentor} showAbout={true} />
             </div>
           ))}

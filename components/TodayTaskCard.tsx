@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 interface TodayTaskCardProps {
   img: string;
@@ -17,17 +18,27 @@ export default function TodayTaskCard({
   role,
   progresspercent,
   daysleft,
-  mentorsincharge
+  mentorsincharge,
 }: TodayTaskCardProps) {
   const progress = progresspercent;
+  const [isMaxMd, setIsMaxMd] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMaxMd(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className="font-[Jakarta] text-[var(--foreground)] bg-[var(--surface-primary)] rounded-[10px]">
-      <Image src={img} alt="logo" width={280} height={110} priority />
+      <Image src={img} alt="logo"    width={isMaxMd ? 500 : 320} height={110} priority />
 
       <div className="my-5 flex flex-col gap-1">
         <p className="text-[16px]">{title}</p>
-        <p className="text-[12px] font-[Jakartamd] text-[var(--text-secondary)]">{role}</p>
+        <p className="text-[12px] font-[Jakartamd] text-[var(--text-secondary)]">
+          {role}
+        </p>
       </div>
 
       <div className="flex flex-col gap-3 mb-5">

@@ -5,6 +5,7 @@ import Image from "next/image";
 import UpcomingTaskCard from "@/components/UpcomingTaskCard";
 import TaskSkeleton from "@/components/TaskSkeleton";
 
+
 const timeLimitTasks = [
   {
     img: "/thirdtaskimg.svg",
@@ -81,87 +82,18 @@ const timeLimitTasks = [
 ];
 
 const newTasks = [
-  {
-    img: "/firsttaskimg.svg",
-    title: "Creating Mobile App Design",
-    role: "UI UX Design",
-    progresspercent: "75",
-    daysleft: "3 Days Left",
-    mentorsincharge: [
-      "/boyinredbg.svg",
-      "/girlonhoodie.svg",
-      "/girlinhat.svg",
-      "/girlwhandonhead.svg",
-      "/dudeonshades.svg",
-    ],
-  },
-  {
-    img: "/secondtaskimg.svg",
-    title: "Creating Perfect Website",
-    role: "Web Developer",
-    progresspercent: "85",
-    daysleft: "4 Days Left",
-    mentorsincharge: [
-      "/girlinwhite.svg",
-      "/boyinred.svg",
-      "/girlinhijab.svg",
-      "/whitedudeinblack.svg",
-      "/blackdude.svg",
-    ],
-  },
-  {
-    img: "/firsttaskimg.svg",
-    title: "Dashboard Redesign",
-    role: "Product Design",
-    progresspercent: "65",
-    daysleft: "3 Days Left",
-    mentorsincharge: ["/boyincap.svg", "/girlinwhite.svg", "/blackdude.svg"],
-  },
-  {
-    img: "/thirdtaskimg.svg",
-    title: "Creating Awesome Mobiles",
-    role: "UI UX Design",
-    progresspercent: "45",
-    daysleft: "5 Days Left",
-    mentorsincharge: [
-      "/boyinredbg.svg",
-      "/girlonhoodie.svg",
-      "/girlinhat.svg",
-      "/girlwhandonhead.svg",
-      "/dudeonshades.svg",
-    ],
-  },
-  {
-    img: "/fourthtaskimg.svg",
-    title: "Creating Perfect Website",
-    role: "Web Developer",
-    progresspercent: "75",
-    daysleft: "3 Days Left",
-    mentorsincharge: [
-      "/girlinwhite.svg",
-      "/boyinred.svg",
-      "/girlinhijab.svg",
-      "/whitedudeinblack.svg",
-      "/blackdude.svg",
-    ],
-  },
-  {
-    img: "/fifthtaskimg.svg",
-    title: "Creating Color Palletes",
-    role: "UI UX Design",
-    progresspercent: "80",
-    daysleft: "2 Days Left",
-    mentorsincharge: ["/boyincap.svg", "/girlinwhite.svg", "/blackdude.svg"],
-  },
+  ...timeLimitTasks,
 ];
 
-const PAGE_SIZE = 3;
 
 export default function Task() {
   const [pages, setPages] = useState({ timeLimit: 0, newTask: 0 });
+  const [pageSize, setPageSize] = useState<number | null>(null);
+
 
   const connection =
     typeof navigator !== "undefined" ? (navigator as any).connection : null;
+
   const isSlowNetwork =
     connection &&
     (connection.effectiveType === "2g" || connection.saveData === true);
@@ -169,17 +101,36 @@ export default function Task() {
   const [showSkeleton] = useState(isSlowNetwork);
   const [isLoading, setIsLoading] = useState(isSlowNetwork);
 
-  const getTotalPages = (tasks: any[]) => Math.ceil(tasks.length / PAGE_SIZE);
-
   useEffect(() => {
     if (!showSkeleton) return;
     const timer = setTimeout(() => setIsLoading(false), 300);
     return () => clearTimeout(timer);
   }, [showSkeleton]);
 
-  if (isLoading && showSkeleton) {
+
+  useEffect(() => {
+    const resolvePageSize = () => {
+      setPageSize(window.innerWidth < 768 ? 1 : 3);
+    };
+
+    resolvePageSize();
+    window.addEventListener("resize", resolvePageSize);
+
+    return () => window.removeEventListener("resize", resolvePageSize);
+  }, []);
+
+
+  useEffect(() => {
+    if (pageSize === null) return;
+    setPages({ timeLimit: 0, newTask: 0 });
+  }, [pageSize]);
+
+  if ((isLoading && showSkeleton) || pageSize === null) {
     return <TaskSkeleton />;
   }
+
+  const getTotalPages = (tasks: any[]) =>
+    Math.ceil(tasks.length / pageSize);
 
   const renderCarousel = (
     tasks: any[],
@@ -190,16 +141,19 @@ export default function Task() {
     const totalPages = getTotalPages(tasks);
 
     return (
-      <div className="p-8">
-        <div className="flex justify-between mb-4 items-center">
+      <div className="p-8 max-md:px-6">
+        <div className="flex justify-between mb-4 max-md:mb-4.5 items-center">
           <p className="text-[24px]">{title}</p>
+
           <div className="flex gap-2.5">
             <Image
               src="/arrowleft.svg"
               alt="left"
               width={24}
               height={24}
-              className={`cursor-pointer ${page === 0 ? "opacity-40" : ""}`}
+              className={`cursor-pointer ${
+                page === 0 ? "opacity-40 pointer-events-none" : ""
+              }`}
               onClick={() =>
                 setPages((p) => ({
                   ...p,
@@ -207,18 +161,24 @@ export default function Task() {
                 }))
               }
             />
+
             <Image
               src="/arrow-left.svg"
               alt="right"
               width={24}
               height={24}
               className={`cursor-pointer rotate-180 ${
-                page === totalPages - 1 ? "opacity-40" : ""
+                page === totalPages - 1
+                  ? "opacity-40 pointer-events-none"
+                  : ""
               }`}
               onClick={() =>
                 setPages((p) => ({
                   ...p,
-                  [pageKey]: Math.min(p[pageKey] + 1, totalPages - 1),
+                  [pageKey]: Math.min(
+                    p[pageKey] + 1,
+                    totalPages - 1,
+                  ),
                 }))
               }
             />
@@ -231,9 +191,12 @@ export default function Task() {
             style={{ transform: `translateX(-${page * 100}%)` }}
           >
             {Array.from({ length: totalPages }).map((_, i) => (
-              <div key={i} className="w-full shrink-0 flex justify-between">
+              <div
+                key={i}
+                className="w-full shrink-0 flex justify-between"
+              >
                 {tasks
-                  .slice(i * PAGE_SIZE, i * PAGE_SIZE + PAGE_SIZE)
+                  .slice(i * pageSize, i * pageSize + pageSize)
                   .map((task, idx) => (
                     <UpcomingTaskCard key={idx} {...task} />
                   ))}
@@ -247,8 +210,8 @@ export default function Task() {
 
   return (
     <div className="font-[Jakarta] text-foreground bg-[var(--background)] w-full max-w-full overflow-x-hidden">
-      <div className="p-8 bg-[var(--surface-primary)]">
-        <div className="flex items-center mb-6">
+      <div className="p-8 max-md:py-0 max-md:px-4 bg-[var(--surface-primary)]">
+        <div className="flex items-center mb-6 max-md:hidden">
           <p className="text-[24px]">Explore Task</p>
           <div className="ml-auto flex gap-6">
             <button className="border border-[var(--surface-secondary)] w-13 h-13 flex justify-center rounded-full">
@@ -258,12 +221,16 @@ export default function Task() {
           </div>
         </div>
 
-        <div className="flex justify-between">
-          <div className="relative w-120">
+        <div className="hidden max-md:flex w-full pt-4">
+          <p className="text-[24px]">Explore Task</p>
+        </div>
+
+        <div className="flex justify-between max-md:pt-8 max-md:pb-6 max-md:gap-6">
+          <div className="relative w-120 max-md:w-full">
             <input
               type="text"
               placeholder="Search Task"
-              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 pl-7 font-[Jakartarg] text-[12px] outline-none focus:border-[var(--surface-secondary)]"
+              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 max-md:py-4 pl-7 pr-14 font-[Jakartarg] text-[12px] outline-none"
             />
             <Image
               src="/searchicon.svg"
@@ -274,7 +241,7 @@ export default function Task() {
             />
           </div>
 
-          <div className="flex gap-6">
+          <div className="flex gap-6 max-md:hidden">
             <div className="flex items-center py-3.5 px-7 gap-3 border border-[var(--surface-secondary)] rounded-[10px]">
               <Image src="/categoryicon.svg" alt="icon" width={20} height={20} />
               <p className="text-[12px]">Category</p>
@@ -284,11 +251,26 @@ export default function Task() {
               <p className="text-[12px]">Sort By : Deadline</p>
             </div>
           </div>
+
+          <div className="hidden max-md:flex items-center p-3.5 border border-[var(--surface-secondary)] rounded-[10px]">
+            <Image src="/settinicon.svg" alt="icon" width={24} height={24} />
+          </div>
         </div>
       </div>
 
-      {renderCarousel(timeLimitTasks, pages.timeLimit, "Time Limit", "timeLimit")}
-      {renderCarousel(newTasks, pages.newTask, "New Task", "newTask")}
+      {renderCarousel(
+        timeLimitTasks,
+        pages.timeLimit,
+        "Time Limit",
+        "timeLimit",
+      )}
+
+      {renderCarousel(
+        newTasks,
+        pages.newTask,
+        "New Task",
+        "newTask",
+      )}
     </div>
   );
 }

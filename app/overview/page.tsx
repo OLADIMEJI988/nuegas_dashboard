@@ -51,10 +51,10 @@ export default function Overview() {
   }
 
   return (
-    <div className="flex font-[Jakarta] text-foreground">
+    <div className="flex max-md:flex-col font-[Jakarta] text-foreground">
       {/* LEFT */}
-      <div className="xl:p-8 p-5 bg-[var(--background)] w-full">
-        <div className="flex items-center">
+      <div className="xl:p-8 p-5 max-md:pb-6 bg-[var(--background)] w-full">
+        <div className="flex max-md:hidden items-center">
           <div className="flex flex-col gap-2">
             <p className="text-[24px]">Hi, Skylar Dias</p>
             <p className="text-[16px] font-[Jakartamd] text-[var(--text-secondary)]">
@@ -70,17 +70,37 @@ export default function Overview() {
           </div>
         </div>
 
-        <div className="mt-11 flex gap-8">
+        {/* <div className="hidden max-md:flex pt-2 pb-7 justify-between border-b border-[var(--surface-secondary)]">
+          <div className="border border-[var(--surface-secondary)] w-11 h-11 flex items-center justify-center rounded-full">
+            <Image src="/menu.svg" alt="logo" width={24} height={24} priority />
+          </div>
+
+          <div className="flex gap-4">
+            <button className="border border-[var(--surface-secondary)] w-11 h-11 flex justify-center rounded-full cursor-pointer">
+              <Image src="/notif.svg" alt="logo" width={20} height={20} />
+            </button>
+            <Image src="/boyinblack.svg" alt="logo" width={44} height={44} />
+          </div>
+        </div> */}
+
+        <div className="hidden max-md:flex flex-col gap-2 mt-4">
+          <p className="text-[24px] text-[var(--foreground)]">Hi Skylar Dias</p>
+          <p className="font-[Jakartamd] text-[14px] text-[var(--text-secondary)]">Let's finish your task today!</p>
+        </div>
+
+        <div className="mt-11 max-md:mt-8 flex max-md:flex-col gap-8">
           <div
-            className="w-48.5 rounded-[10px] p-5 flex flex-col justify-between"
+            className="w-48.5 max-md:w-full rounded-[10px] p-5 flex md:flex-col justify-between"
             style={{ backgroundColor: "var(--card-bg)" }}
           >
-            <p className="text-[16px]" style={{ color: "var(--card-text)" }}>
-              Running Task
-            </p>
-            <p className="text-[32px]" style={{ color: "var(--card-text)" }}>
-              65
-            </p>
+            <div className="flex flex-col gap-4">
+              <p className="text-[16px]" style={{ color: "var(--card-text)" }}>
+                Running Task
+              </p>
+              <p className="text-[32px]" style={{ color: "var(--card-text)" }}>
+                65
+              </p>
+            </div>
 
             <div className="flex items-center gap-4.5">
               <div
@@ -130,7 +150,7 @@ export default function Overview() {
       <div className="xl:w-[50%] p-4 xl:p-6 flex flex-col gap-5 xl:gap-7">
         <CustomMiniCalendar />
 
-        <div className="bg-[var(--surface-primary)] h-full rounded-[10px] p-6 flex flex-col">
+        <div className="bg-[var(--surface-primary)] h-full rounded-[10px] p-6 max-md:p-5 flex flex-col">
           <div className="flex justify-between items-center">
             <p className="text-[14px]">Task Today</p>
             <Image
@@ -148,7 +168,9 @@ export default function Overview() {
             ))}
           </div>
 
-          <div className="mt-16 flex flex-col flex-1">
+          <div className="bg-[var(--surface-secondary)] w-full h-px mt-8"></div>
+
+          <div className="mt-8 flex flex-col flex-1">
             <div className="flex justify-between items-start">
               <p className="text-[16px]">Detail Task</p>
               <p className="text-[12px] font-[Jakartamd] text-[var(--text-muted)]">
@@ -175,7 +197,7 @@ export default function Overview() {
               ))}
             </div>
 
-            <button className="w-full bg-[var(--accent-primary)] py-3 rounded-[10px] text-white text-[14px] mt-auto">
+            <button className="max-md:mt-14 w-full bg-[var(--accent-primary)] py-3 rounded-[10px] text-white text-[14px] mt-auto">
               Go To Detail
             </button>
           </div>
