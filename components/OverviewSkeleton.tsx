@@ -82,6 +82,42 @@ export default function OverviewSkeleton() {
             ))}
           </div>
         </div>
+
+        <div className="mt-15">
+          <div className="flex justify-between items-center mb-6">
+            <div className="h-6 w-40 bg-[var(--surface-muted)] rounded" />
+            <div className="flex gap-4">
+              <div className="w-6 h-6 bg-[var(--surface-muted)] rounded" />
+              <div className="w-6 h-6 bg-[var(--surface-muted)] rounded" />
+            </div>
+          </div>
+
+          <div className="flex max-md:flex-col justify-between gap-6">
+            {[1, 2].map((card) => (
+              <div
+                key={card}
+                className="w-full max-w-90 bg-[var(--surface-primary)] rounded-2xl p-5 space-y-4"
+              >
+                <div className="h-36 rounded-xl bg-[var(--surface-muted)]" />
+                <div className="h-4 w-3/4 bg-[var(--surface-muted)] rounded" />
+                <div className="h-3 w-1/3 bg-[var(--surface-muted)] rounded" />
+                <div className="h-2 w-full bg-[var(--surface-muted)] rounded" />
+
+                <div className="flex justify-between items-center mt-4">
+                  <div className="h-3 w-20 bg-[var(--surface-muted)] rounded" />
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3].map((a) => (
+                      <div
+                        key={a}
+                        className="w-7 h-7 rounded-full bg-[var(--surface-muted)] border-2 border-[var(--surface-primary)]"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* RIGHT */}
@@ -98,6 +134,19 @@ export default function OverviewSkeleton() {
             <div className="h-36 rounded-xl bg-[var(--surface-muted)]" />
             <div className="h-4 w-3/4 bg-[var(--surface-muted)] rounded" />
             <div className="h-3 w-1/3 bg-[var(--surface-muted)] rounded" />
+            <div className="h-2 w-full bg-[var(--surface-muted)] rounded" />
+
+            <div className="flex justify-between items-center mt-4">
+              <div className="h-3 w-20 bg-[var(--surface-muted)] rounded" />
+              <div className="flex -space-x-2">
+                {[1, 2, 3].map((a) => (
+                  <div
+                    key={a}
+                    className="w-7 h-7 rounded-full bg-[var(--surface-muted)] border-2 border-[var(--surface-primary)]"
+                  />
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="mt-8 flex flex-col flex-1">
