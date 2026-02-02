@@ -299,7 +299,7 @@ export default function Message({
               placeholder="Search Name"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 max-md:py-4 pl-7 text-[12px] outline-none"
+              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 max-md:py-4 pl-7 text-[12px] max-md:text-[16px] outline-none"
             />
             <Image
               src="/searchicon.svg"
@@ -335,10 +335,10 @@ export default function Message({
 
         {/* Right side */}
         <div
-          className={`flex-1 min-w-0 bg-[var(--background)] flex flex-col
-          ${mobileView === "list" ? "max-md:hidden" : ""}`}
-          style={{ height: rightHeight }}
-        >
+            className="flex-1 min-w-0 bg-[var(--background)] flex flex-col
+             max-md:h-[100svh] overflow-hidden"
+            >
+
           <div className="py-6 px-12 max-md:px-4 flex justify-between bg-[var(--surface-primary)]">
             <div className="flex gap-3 items-center">
               <button
@@ -395,7 +395,8 @@ export default function Message({
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto overflow-x-hidden px-8 custom-scrollbar min-h-0">
+          <div className="flex-1 overflow-y-auto overflow-x-hidden px-8 pb-28 custom-scrollbar min-h-0 overscroll-contain ">
+
             {selectedChat.messages.map((msg, i) => {
               const prev = selectedChat.messages[i - 1];
               const next = selectedChat.messages[i + 1];
@@ -527,7 +528,7 @@ export default function Message({
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="bg-[var(--surface-primary)] border-t border-[var(--surface-secondary)] px-6 py-4 flex flex-col gap-3">
+          <div className="bg-[var(--surface-primary)] border-t border-[var(--surface-secondary)] px-6 py-4 flex flex-col gap-3 sticky bottom-0 z-20">
             {imagePreview && (
               <div className="relative w-32">
                 <img src={imagePreview} alt="preview" className="rounded-lg" />
@@ -547,7 +548,7 @@ export default function Message({
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-                className="flex-1 font-[Jakartamd] text-[14px] placeholder-[var(--muted-foreground)] outline-none"
+                className="flex-1 font-[Jakartamd] text-[14px] max-md:text-[16px] placeholder-[var(--muted-foreground)] outline-none"
               />
 
               <input
