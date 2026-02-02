@@ -144,7 +144,13 @@ const initialChats: Chat[] = [
   },
 ];
 
-export default function Message() {
+export default function Message({
+  mobileView,
+  setMobileView,
+}: {
+  mobileView: "list" | "chat";
+  setMobileView: React.Dispatch<React.SetStateAction<"list" | "chat">>;
+}) {
   const [, forceUpdate] = useState(0);
   const leftRef = useRef<HTMLDivElement>(null);
   const [leftHeight, setLeftHeight] = useState(0);
@@ -154,7 +160,7 @@ export default function Message() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [mobileView, setMobileView] = useState<"list" | "chat">("list");
+  // const [mobileView, setMobileView] = useState<"list" | "chat">("list");
   const [deleteTarget, setDeleteTarget] = useState<{
     chatName: string;
     index: number;

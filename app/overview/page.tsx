@@ -53,7 +53,7 @@ export default function Overview() {
   return (
     <div className="flex max-md:flex-col font-[Jakarta] text-foreground">
       {/* LEFT */}
-      <div className="xl:p-8 p-5 max-md:pb-6 bg-[var(--background)] w-full">
+      <div className="2xl:p-8 p-5 max-md:pb-6 bg-[var(--background)] w-full">
         <div className="flex max-md:hidden items-center">
           <div className="flex flex-col gap-2">
             <p className="text-[24px]">Hi, Skylar Dias</p>
@@ -147,7 +147,7 @@ export default function Overview() {
       </div>
 
       {/* RIGHT */}
-      <div className="xl:w-[50%] p-4 xl:p-6 flex flex-col gap-5 xl:gap-7">
+      <div className="2xl:w-[50%] p-4 2xl:p-6 flex flex-col gap-5 2xl:gap-7">
         <CustomMiniCalendar />
 
         <div className="bg-[var(--surface-primary)] h-full rounded-[10px] p-6 max-md:p-5 flex flex-col">

@@ -27,7 +27,7 @@ export default function MonthlyMentorCard({
   const [followed, setFollowed] = useState(false);
 
   return (
-    <div className="xl:p-6 p-5 max-md:py-6 max-md:w-full flex flex-col gap-5 max-md:gap-6.25 font-[Jakarta] text-[var(--foreground)] bg-[var(--surface-primary)] rounded-[10px]">
+    <div className="2xl:p-6 p-5 max-md:py-6 max-md:w-full flex flex-col gap-5 max-md:gap-6.25 font-[Jakarta] text-[var(--foreground)] bg-[var(--surface-primary)] rounded-[10px]">
       <div className="flex gap-10 items-center">
         <div className="flex gap-2 items-center">
           <Image src={img} alt="logo" width={48} height={48} priority />
@@ -42,7 +42,7 @@ export default function MonthlyMentorCard({
 
         <button
           onClick={() => setFollowed(true)}
-          className={`ml-auto font-[Jakartamd] text-[12px] max-md:text-[14px] xl:text-[14px] cursor-pointer ${
+          className={`ml-auto font-[Jakartamd] text-[12px] max-md:text-[14px] 2xl:text-[14px] cursor-pointer ${
             followed
               ? "text-[var(--text-secondary)]"
               : "text-[var(--accent-primary)]"

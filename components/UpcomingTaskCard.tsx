@@ -31,7 +31,7 @@ export default function UpcomingTaskCard({
   }, []);
 
   return (
-    <div className="xl:p-6 px-4.5 max-xl:py-5 max-md:p-6 max-md:w-full font-[Jakarta] text-[var(--foreground)] bg-[var(--surface-primary)] rounded-[10px]">
+    <div className="2xl:p-6 px-4.5 max-2xl:py-5 max-md:p-6 max-md:w-full font-[Jakarta] text-[var(--foreground)] bg-[var(--surface-primary)] rounded-[10px]">
       <Image
         src={img}
         alt="logo"

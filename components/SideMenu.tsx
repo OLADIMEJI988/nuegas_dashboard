@@ -51,6 +51,9 @@ export default function SideMenuLayout() {
   const [activeMenu, setActiveMenu] = useState("overview");
   const [darkMode, setDarkMode] = useState<boolean | null>(null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [messageMobileView, setMessageMobileView] = useState<"list" | "chat">(
+    "list",
+  );
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -81,7 +84,13 @@ export default function SideMenuLayout() {
       case "mentors":
         return <Mentors />;
       case "message":
-        return <Message />;
+        return (
+          <Message
+            mobileView={messageMobileView}
+            setMobileView={setMessageMobileView}
+          />
+        );
+
       case "settings":
         return <Settings darkMode={darkMode} setDarkMode={setDarkMode} />;
       default:
@@ -133,7 +142,7 @@ export default function SideMenuLayout() {
   return (
     <div className="flex min-h-screen w-full overflow-x-hidden font-[Jakarta]">
       {/* desktop menu */}
-      <aside className="w-55 xl:w-63 max-md:hidden shrink-0 bg-[var(--surface-primary)] p-5 xl:p-8 flex flex-col border-r border-[var(--surface-secondary)]">
+      <aside className="w-55 2xl:w-63 max-md:hidden shrink-0 bg-[var(--surface-primary)] p-5 2xl:p-8 flex flex-col border-r border-[var(--surface-secondary)]">
         <div className="flex items-center gap-3 mb-15">
           <Image src="/logo.svg" alt="logo" width={40} height={40} />
           <p className="text-2xl font-bold text-[var(--foreground)]">Nuegas</p>
@@ -283,21 +292,28 @@ export default function SideMenuLayout() {
       </aside>
 
       <div className="flex flex-col flex-1 min-w-0">
-        <div className="hidden max-md:flex px-4 py-7 justify-between border-b border-[var(--surface-primary)] bg-[var(--surface-primary)]">
-          <div
-            onClick={() => setMobileNavOpen(true)}
-            className="border border-[var(--surface-secondary)] w-11 h-11 flex items-center justify-center rounded-full cursor-pointer"
-          >
-            <Image src="/menu.svg" alt="menu" width={24} height={24} />
-          </div>
+        {!(activeMenu === "message" && messageMobileView === "chat") && (
+          <div className="hidden max-md:flex px-4 py-7 justify-between border-b border-[var(--surface-primary)] bg-[var(--surface-primary)]">
+            <div
+              onClick={() => setMobileNavOpen(true)}
+              className="border border-[var(--surface-secondary)] w-11 h-11 flex items-center justify-center rounded-full cursor-pointer"
+            >
+              <Image src="/menu.svg" alt="menu" width={24} height={24} />
+            </div>
 
-          <div className="flex gap-4">
-            <button className="border border-[var(--surface-secondary)] w-11 h-11 flex items-center justify-center rounded-full">
-              <Image src="/notif.svg" alt="notif" width={20} height={20} />
-            </button>
-            <Image src="/boyinblack.svg" alt="profile" width={44} height={44} />
+            <div className="flex gap-4">
+              <button className="border border-[var(--surface-secondary)] w-11 h-11 flex items-center justify-center rounded-full">
+                <Image src="/notif.svg" alt="notif" width={20} height={20} />
+              </button>
+              <Image
+                src="/boyinblack.svg"
+                alt="profile"
+                width={44}
+                height={44}
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         <main className="flex-1 overflow-x-hidden bg-[var(--surface-secondary)]">
           {renderContent()}
