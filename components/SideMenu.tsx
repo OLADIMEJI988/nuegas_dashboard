@@ -287,13 +287,12 @@ export default function SideMenuLayout() {
             />
           </nav>
 
-          {HelpCenterCard}
         </div>
       </aside>
 
       <div className="flex flex-col flex-1 min-w-0">
         {!(activeMenu === "message" && messageMobileView === "chat") && (
-          <div className="hidden max-md:flex px-4 py-7 justify-between border-b border-[var(--surface-primary)] bg-[var(--surface-primary)]">
+          <div className="hidden max-md:flex px-5 py-7 justify-between border-b border-[var(--surface-primary)] bg-[var(--surface-primary)]">
             <div
               onClick={() => setMobileNavOpen(true)}
               className="border border-[var(--surface-secondary)] w-11 h-11 flex items-center justify-center rounded-full cursor-pointer"

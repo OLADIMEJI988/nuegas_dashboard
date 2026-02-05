@@ -21,7 +21,7 @@ export default function TaskSkeleton() {
         </div>
 
         {/* Search + filters */}
-        <div className="flex justify-between max-md:pt-8 max-md:pb-6 max-md:gap-6">
+        <div className="flex justify-between max-md:pt-8 max-md:pb-6 max-md:gap-4">
           <div className="relative w-120 max-md:w-full h-12 bg-[var(--surface-muted)] rounded-[10px]" />
 
           {/* Desktop filters */}
@@ -37,7 +37,7 @@ export default function TaskSkeleton() {
 
       {/* ---------- CAROUSEL SECTIONS ---------- */}
       {[1, 2].map((section) => (
-        <div key={section} className="p-8 max-md:px-6">
+        <div key={section} className="p-8 max-md:px-4">
           {/* Section header */}
           <div className="flex justify-between mb-4 max-md:mb-4.5 items-center">
             <div className="h-6 w-32 bg-[var(--surface-muted)] rounded" />

@@ -19,8 +19,8 @@ export default function ChatDisplay({
   isRead,
 }: CardDisplayProps) {
   return (
-    <div className="w-full font-[Jakarta] mt-4">
-      <div className="flex gap-3 bg-[var(--background)] py-2.5 max-md:py-5 px-5 rounded-[10px]">
+    <div className="w-full font-[Jakarta] mt-4 max-md:mt-3">
+      <div className="flex gap-3 bg-[var(--background)] py-2.5 px-5 rounded-[10px]">
         <Image src={img} alt="logo" width={48} height={48} priority />
 
         <div className="flex flex-col flex-1 gap-2">
@@ -57,7 +57,7 @@ export default function ChatDisplay({
         </div>
       </div>
 
-      <div className="px-5 max-md:px-0 mt-4">
+      <div className="px-5 max-md:px-0 mt-4 max-md:mt-3">
         <div className="w-full bg-[var(--surface-secondary)] rounded-[10px] h-px"></div>
       </div>
     </div>

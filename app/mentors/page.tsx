@@ -223,7 +223,7 @@ export default function Mentors() {
 
   return (
     <div className="font-[Jakarta] text-foreground bg-[var(--background)]">
-      <div className="p-8 max-md:py-0 max-md:px-4 bg-[var(--surface-primary)] w-full">
+      <div className="p-8 max-md:py-0 max-md:px-5 bg-[var(--surface-primary)] w-full">
         <div className="flex items-center max-md:hidden">
           <p className="text-[24px]">Explore Mentors</p>
 
@@ -252,12 +252,12 @@ export default function Mentors() {
           <p className="text-[24px]">Explore Mentors</p>
         </div>
 
-        <div className="mt-6 flex justify-between max-md:mt-0 max-md:pt-8 max-md:pb-6 max-md:gap-6">
+        <div className="mt-6 flex justify-between max-md:mt-0 max-md:pt-8 max-md:pb-6 max-md:gap-4">
           <div className="relative w-120 max-md:w-full">
             <input
               type="text"
               placeholder="Search Mentors"
-              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 max-md:py-4 pl-7 font-[Jakartarg] text-[12px] outline-none focus:border-[var(--surface-secondary)]"
+              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 max-md:py-4 pl-7 max-md:pl-5 font-[Jakartarg] text-[12px] placeholder:text-[14px] max-md:text-[16px] outline-none focus:border-[var(--surface-secondary)]"
             />
 
             <Image
@@ -265,7 +265,7 @@ export default function Mentors() {
               alt="search"
               width={20}
               height={20}
-              className="absolute right-7 top-1/2 -translate-y-1/2 pointer-events-none"
+              className="absolute right-7 max-md:right-5 top-1/2 -translate-y-1/2 pointer-events-none"
               priority
             />
           </div>
@@ -300,7 +300,7 @@ export default function Mentors() {
         </div>
       </div>
 
-      <div className="p-8 max-md:px-6">
+      <div className="p-8 max-md:px-5">
         <div className="flex justify-between">
           <p className="text-[24px]">Recent Mentors</p>
           <div className="flex w-14.5 justify-between">
@@ -358,7 +358,7 @@ export default function Mentors() {
         </div>
       </div>
 
-      <div className="p-8 max-md:p-6">
+      <div className="p-8 max-md:p-5">
         <div className="mb-4.5">
           <p className="text-[24px]">Mentors</p>
         </div>

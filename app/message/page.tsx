@@ -160,7 +160,6 @@ export default function Message({
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [searchTerm, setSearchTerm] = useState("");
-  // const [mobileView, setMobileView] = useState<"list" | "chat">("list");
   const [deleteTarget, setDeleteTarget] = useState<{
     chatName: string;
     index: number;
@@ -226,42 +225,45 @@ export default function Message({
     reader.readAsDataURL(file);
   };
 
-  const handleSendMessage = () => {
-    if (!newMessage.trim() && !imagePreview) return;
+const handleSendMessage = () => {
+  if (!newMessage.trim() && !imagePreview) return;
 
-    const now = new Date();
+  const now = new Date();
 
-    const newMsg: Message = {
-      text: newMessage,
-      image: imagePreview ?? undefined,
-      fromMe: true,
-      createdAt: now,
-    };
-
-    const updatedMessages = [...selectedChat.messages, newMsg];
-
-    const shotText = newMessage.trim() || (imagePreview ? "📸 Image" : "");
-
-    const updatedChat: Chat = {
-      ...selectedChat,
-      messages: updatedMessages,
-      message_shot:
-        shotText.length > MAX_SHOT_LENGTH
-          ? shotText.slice(0, MAX_SHOT_LENGTH) + "..."
-          : shotText,
-    };
-
-    setChats(
-      chats.map((c) => (c.name === selectedChat.name ? updatedChat : c)),
-    );
-    setSelectedChat(updatedChat);
-
-    setNewMessage("");
-    setImagePreview(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-
-    setTimeout(scrollToBottom, 50);
+  const newMsg: Message = {
+    text: newMessage,
+    image: imagePreview ?? undefined,
+    fromMe: true,
+    createdAt: now,
   };
+
+  const updatedMessages = [...selectedChat.messages, newMsg];
+
+  const shotText = newMessage.trim() || (imagePreview ? "📸 Image" : "");
+
+  const updatedChat: Chat = {
+    ...selectedChat,
+    messages: updatedMessages,
+    message_shot:
+      shotText.length > MAX_SHOT_LENGTH
+        ? shotText.slice(0, MAX_SHOT_LENGTH) + "..."
+        : shotText,
+  };
+
+  setChats(
+    chats.map((c) => (c.name === selectedChat.name ? updatedChat : c)),
+  );
+  setSelectedChat(updatedChat);
+
+  setNewMessage("");
+  setImagePreview(null);
+  if (fileInputRef.current) fileInputRef.current.value = "";
+
+  if (window.innerWidth >= 768) {
+    setTimeout(scrollToBottom, 50);
+  }
+};
+
 
   const filteredChats = chats.filter((chat) =>
     chat.name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -282,7 +284,7 @@ export default function Message({
       </div>
 
       {mobileView === "list" && (
-        <div className="hidden max-md:flex w-full pt-4 px-6 bg-[var(--surface-primary)]">
+        <div className="hidden max-md:flex w-full pt-4 px-5 bg-[var(--surface-primary)]">
           <p className="text-[24px]">Message</p>
         </div>
       )}
@@ -290,7 +292,7 @@ export default function Message({
       <div className="flex flex-1 overflow-hidden">
         <div
           ref={leftRef}
-          className={`w-[37%] max-md:w-full shrink-0 border-r border-[var(--surface-secondary)] p-6 max-md:py-8 bg-[var(--surface-primary)] flex flex-col
+          className={`w-[37%] max-md:w-full shrink-0 border-r border-[var(--surface-secondary)] p-6 max-md:px-5 bg-[var(--surface-primary)] flex flex-col
                     ${mobileView === "chat" ? "max-md:hidden" : ""}`}
         >
           <div className="relative w-full">
@@ -299,14 +301,14 @@ export default function Message({
               placeholder="Search Name"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 max-md:py-4 pl-7 text-[12px] max-md:text-[16px] outline-none"
+              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 max-md:py-4 pl-7 max-md:pl-5 text-[12px] placeholder:text-[14px] max-md:text-[16px] outline-none"
             />
             <Image
               src="/searchicon.svg"
               alt="search"
               width={20}
               height={20}
-              className="absolute right-7 top-1/2 -translate-y-1/2"
+              className="absolute right-7 max-md:right-5 top-1/2 -translate-y-1/2"
             />
           </div>
 
@@ -395,8 +397,7 @@ export default function Message({
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto overflow-x-hidden px-8 pb-28 custom-scrollbar min-h-0 overscroll-contain ">
-
+          <div className="flex-1 overflow-y-auto overflow-x-hidden px-8 max-md:px-4 pb-10 custom-scrollbar min-h-0 overscroll-contain ">
             {selectedChat.messages.map((msg, i) => {
               const prev = selectedChat.messages[i - 1];
               const next = selectedChat.messages[i + 1];
@@ -528,7 +529,7 @@ export default function Message({
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="bg-[var(--surface-primary)] border-t border-[var(--surface-secondary)] px-6 py-4 flex flex-col gap-3 sticky bottom-0 z-20">
+          <div className="max-md:sticky bg-[var(--surface-primary)] border-t border-[var(--surface-secondary)] px-6 max-md:px-5 py-4 flex flex-col gap-3 bottom-0 max-md:left-0 max-md:right-0 max-md:z-50">
             {imagePreview && (
               <div className="relative w-32">
                 <img src={imagePreview} alt="preview" className="rounded-lg" />

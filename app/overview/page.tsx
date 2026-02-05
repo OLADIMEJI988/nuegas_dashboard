@@ -147,7 +147,7 @@ export default function Overview() {
       </div>
 
       {/* RIGHT */}
-      <div className="2xl:w-[50%] p-4 2xl:p-6 flex flex-col gap-5 2xl:gap-7">
+      <div className="2xl:w-[50%] p-4 max-md:p-5 2xl:p-6 flex flex-col gap-5 2xl:gap-7">
         <CustomMiniCalendar />
 
         <div className="bg-[var(--surface-primary)] h-full rounded-[10px] p-6 max-md:p-5 flex flex-col">

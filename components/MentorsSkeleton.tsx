@@ -21,7 +21,7 @@ export default function MentorsSkeleton() {
         </div>
 
         {/* Search + actions */}
-        <div className="mt-6 flex justify-between max-md:mt-0 max-md:pt-8 max-md:pb-6 max-md:gap-6">
+        <div className="mt-6 flex justify-between max-md:mt-0 max-md:pt-8 max-md:pb-6 max-md:gap-4">
           <div className="relative w-120 max-md:w-full">
             <div className="h-11 max-md:h-12 w-full bg-[var(--surface-muted)] rounded-[10px]" />
           </div>
@@ -38,7 +38,7 @@ export default function MentorsSkeleton() {
       </div>
 
       {/* Recent Mentors */}
-      <div className="p-8 max-md:px-6">
+      <div className="p-8 max-md:px-4">
         <div className="flex justify-between">
           <div className="h-6 w-40 bg-[var(--surface-muted)] rounded" />
 

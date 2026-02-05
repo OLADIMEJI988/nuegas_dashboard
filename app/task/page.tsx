@@ -141,7 +141,7 @@ export default function Task() {
     const totalPages = getTotalPages(tasks);
 
     return (
-      <div className="p-8 max-md:px-6">
+      <div className="p-8 max-md:px-5">
         <div className="flex justify-between mb-4 max-md:mb-4.5 items-center">
           <p className="text-[24px]">{title}</p>
 
@@ -210,7 +210,7 @@ export default function Task() {
 
   return (
     <div className="font-[Jakarta] text-foreground bg-[var(--background)] w-full max-w-full overflow-x-hidden">
-      <div className="p-8 max-md:py-0 max-md:px-4 bg-[var(--surface-primary)]">
+      <div className="p-8 max-md:py-0 max-md:px-5 bg-[var(--surface-primary)]">
         <div className="flex items-center mb-6 max-md:hidden">
           <p className="text-[24px]">Explore Task</p>
           <div className="ml-auto flex gap-6">
@@ -225,19 +225,19 @@ export default function Task() {
           <p className="text-[24px]">Explore Task</p>
         </div>
 
-        <div className="flex justify-between max-md:pt-8 max-md:pb-6 max-md:gap-6">
+        <div className="flex justify-between max-md:pt-8 max-md:pb-6 max-md:gap-4">
           <div className="relative w-120 max-md:w-full">
             <input
               type="text"
               placeholder="Search Task"
-              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 max-md:py-4 pl-7 pr-14 font-[Jakartarg] text-[12px] outline-none"
+              className="w-full border border-[var(--surface-secondary)] rounded-[10px] py-3.5 max-md:py-4 pl-7 max-md:pl-5 pr-14 font-[Jakartarg] text-[12px] placeholder:text-[14px] max-md:text-[16px] outline-none"
             />
             <Image
               src="/searchicon.svg"
               alt="search"
               width={20}
               height={20}
-              className="absolute right-7 top-1/2 -translate-y-1/2"
+              className="absolute right-7 max-md:right-5 top-1/2 -translate-y-1/2"
             />
           </div>
 

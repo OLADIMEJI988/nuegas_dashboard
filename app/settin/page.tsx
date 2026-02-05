@@ -80,7 +80,7 @@ export default function Settings({ darkMode, setDarkMode }: SettingsProps) {
         </div>
       </div>
 
-      <div className="hidden max-md:flex flex-col w-full pt-4 px-6 bg-[var(--surface-primary)]">
+      <div className="hidden max-md:flex flex-col w-full pt-4 px-5 bg-[var(--surface-primary)]">
         <p className="text-[24px]">Settings</p>
 
         <div className="hidden max-md:flex w-full pt-5 mt-5 gap-6 border-b border-[var(--surface-secondary)]">
